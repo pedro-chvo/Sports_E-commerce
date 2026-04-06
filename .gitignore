@@ -1,1 +1,25 @@
 documentación/
+# Dependencias (Las carpetas más pesadas, no se suben)
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Variables de entorno (Secretos, contraseñas, llaves de API)
+.env
+.env.local
+backend/.env
+
+# Archivos del Sistema Operativo y Editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs (Archivos de registro de errores)
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Carpeta de compilación (si llegas a usar React o similar más adelante)
+dist/
+build/

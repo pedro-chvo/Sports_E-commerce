@@ -1,14 +1,19 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 
-const PORT = 3000;
+const productoRoutes = require('./src/routes/producto.routes');
 
-// Una ruta de prueba
+const PORT = process.env.PORT || 3000;
+
+app.use(express.json());
+
+app.use('/api/productos', productoRoutes);
+
 app.get('/', (req, res) => {
-    res.send('¡Hola! El servidor está funcionando perfectamente.');
+    res.json({ mensaje: 'API Sports E-commerce funcionando' });
 });
 
-// Esta es la parte que mantiene el servidor "vivo"
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });

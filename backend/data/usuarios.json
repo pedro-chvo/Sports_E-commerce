@@ -1,1 +1,9 @@
-[]
+[
+  {
+    "id": 1,
+    "nombre": "Admin",
+    "email": "admin@sports.com",
+    "password": "$2b$10$I3r.NMBMX4426EsJE.NWZe1gPXEgMXQ.2OTxpfuZDzfsUdLj3mF7i",
+    "rol": "admin"
+  }
+]

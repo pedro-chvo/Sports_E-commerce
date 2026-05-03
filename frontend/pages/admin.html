@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin — SportZone</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/src/css/styles.css">
+</head>
+<body style="margin:0;padding:0;background:var(--bg-alt);">
+
+<div class="admin-layout">
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="admin-sidebar">
+    <div class="admin-brand">SPORT<span>ZONE</span></div>
+    <nav class="admin-nav">
+      <button class="admin-nav-item active" onclick="mostrarSeccion('dashboard', this)">
+        <span class="icono">📊</span> Dashboard
+      </button>
+      <button class="admin-nav-item" onclick="mostrarSeccion('productos', this)">
+        <span class="icono">📦</span> Productos
+      </button>
+    </nav>
+    <div style="padding:1.5rem;margin-top:auto;border-top:1px solid rgba(255,255,255,0.08);">
+      <a href="/index.html"
+         style="font-size:.8rem;color:rgba(255,255,255,.5);display:block;margin-bottom:.5rem;">
+        ← Ver tienda
+      </a>
+      <a href="#" onclick="logout();return false;"
+         style="font-size:.8rem;color:rgba(255,255,255,.5);">
+        Cerrar sesión
+      </a>
+    </div>
+  </aside>
+
+  <!-- ═══ MAIN ═══ -->
+  <main class="admin-main">
+
+    <!-- ─── DASHBOARD ─── -->
+    <section class="admin-section active" id="sec-dashboard">
+      <div class="admin-page-title">Dashboard</div>
+
+      <!-- Metric cards -->
+      <div class="row g-3 mb-4" id="metrics-row">
+        <div class="col-sm-6 col-xl-3">
+          <div class="metric-card">
+            <div class="metric-icon red">📦</div>
+            <div class="metric-value" id="m-total">—</div>
+            <div class="metric-label">Total productos</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="metric-card">
+            <div class="metric-icon green">✅</div>
+            <div class="metric-value" id="m-ok">—</div>
+            <div class="metric-label">Con stock</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="metric-card">
+            <div class="metric-icon amber">⚠️</div>
+            <div class="metric-value" id="m-low">—</div>
+            <div class="metric-label">Stock bajo (&le;5)</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="metric-card">
+            <div class="metric-icon blue">🏀</div>
+            <div class="metric-value" id="m-deportes">—</div>
+            <div class="metric-label">Deportes</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventario por deporte -->
+      <div class="admin-table-wrap mb-4">
+        <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);
+                    font-family:var(--font-heading);font-weight:700;font-size:.95rem;
+                    text-transform:uppercase;letter-spacing:.04em;">
+          Inventario por Deporte
+        </div>
+        <table class="table table-borderless mb-0">
+          <thead>
+            <tr>
+              <th>Deporte</th>
+              <th>Productos</th>
+              <th>Unidades totales</th>
+              <th>Stock promedio</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-deportes"></tbody>
+        </table>
+      </div>
+
+      <!-- Stock bajo -->
+      <div class="admin-table-wrap">
+        <div style="padding:1rem 1.25rem;border-bottom:1px solid var(--border);
+                    font-family:var(--font-heading);font-weight:700;font-size:.95rem;
+                    text-transform:uppercase;letter-spacing:.04em;">
+          Productos con Stock Bajo
+        </div>
+        <table class="table table-borderless mb-0">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Deporte</th>
+              <th>Stock</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-stock-bajo"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ─── PRODUCTOS ─── -->
+    <section class="admin-section" id="sec-productos">
+      <div class="d-flex align-items-center justify-content-between mb-3">
+        <div class="admin-page-title" style="margin-bottom:0;">Productos</div>
+        <button class="btn btn-primary btn-sm" onclick="abrirModalProducto(null)">
+          + Nuevo producto
+        </button>
+      </div>
+
+      <!-- Filtro rápido -->
+      <div class="mb-3 d-flex gap-2 flex-wrap">
+        <select id="filtro-deporte" class="form-select form-select-sm"
+                style="max-width:160px;" onchange="cargarTablaProductos()">
+          <option value="">Todos los deportes</option>
+          <option value="basquetbol">Basquetbol</option>
+          <option value="futbol">Fútbol</option>
+          <option value="voleibol">Voleibol</option>
+        </select>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="table table-borderless mb-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Deporte</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-productos">
+            <tr><td colspan="7" class="text-center py-4 text-muted">Cargando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ═══ MODAL PRODUCTO ═══ -->
+<div class="modal fade" id="modalProducto" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-titulo">Nuevo producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="form-producto">
+          <input type="hidden" id="producto-id">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label">Nombre *</label>
+              <input type="text" class="form-control" id="p-nombre" required>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Descripción</label>
+              <textarea class="form-control" id="p-descripcion" rows="3"></textarea>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Precio (MXN) *</label>
+              <input type="number" class="form-control" id="p-precio" min="0" step="0.01" required>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Stock *</label>
+              <input type="number" class="form-control" id="p-stock" min="0" required>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Deporte *</label>
+              <select class="form-select" id="p-deporte" required>
+                <option value="">Seleccionar…</option>
+                <option value="basquetbol">Basquetbol</option>
+                <option value="futbol">Fútbol</option>
+                <option value="voleibol">Voleibol</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Categoría *</label>
+              <select class="form-select" id="p-categoria" required>
+                <option value="">Seleccionar…</option>
+                <option value="Calzado">Calzado</option>
+                <option value="balones">Balones</option>
+                <option value="ropa">Ropa</option>
+                <option value="accesorios">Accesorios</option>
+              </select>
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Marca</label>
+              <input type="text" class="form-control" id="p-marca">
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label">Color</label>
+              <input type="text" class="form-control" id="p-color">
+            </div>
+          </div>
+          <p class="mensaje-error mt-2" id="error-producto"></p>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="guardarProducto()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL CONFIRMAR ELIMINAR ═══ -->
+<div class="modal fade" id="modalEliminar" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de eliminar <strong id="nombre-eliminar"></strong>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger btn-sm" onclick="confirmarEliminar()">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/src/js/auth.js"></script>
+<script src="/src/js/api.js"></script>
+<script src="/src/js/cart.js"></script>
+<script>
+  /* ── Protección de ruta ── */
+  if (!estaLogueado() || !esAdmin()) {
+    window.location.href = '/pages/login.html';
+  }
+
+  let idParaEliminar = null;
+  const modalProducto = new bootstrap.Modal(document.getElementById('modalProducto'));
+  const modalEliminar = new bootstrap.Modal(document.getElementById('modalEliminar'));
+
+  /* ── Navegación por secciones ── */
+  function mostrarSeccion(nombre, btn) {
+    document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.admin-nav-item').forEach(b => b.classList.remove('active'));
+    document.getElementById('sec-' + nombre).classList.add('active');
+    btn.classList.add('active');
+    if (nombre === 'productos') cargarTablaProductos();
+    if (nombre === 'dashboard') cargarDashboard();
+  }
+
+  /* ── Dashboard ── */
+  async function cargarDashboard() {
+    try {
+      const productos = await productosAPI.getAll();
+      document.getElementById('m-total').textContent = productos.length;
+      document.getElementById('m-ok').textContent = productos.filter(p => p.stock > 5).length;
+      document.getElementById('m-low').textContent = productos.filter(p => p.stock > 0 && p.stock <= 5).length;
+
+      const deportes = [...new Set(productos.map(p => p.deporte))];
+      document.getElementById('m-deportes').textContent = deportes.length;
+
+      /* Tabla por deporte */
+      const tablaD = document.getElementById('tabla-deportes');
+      tablaD.innerHTML = deportes.map(d => {
+        const items = productos.filter(p => p.deporte === d);
+        const unidades = items.reduce((s, p) => s + p.stock, 0);
+        const prom = Math.round(unidades / items.length);
+        return `<tr>
+          <td><span class="badge-sport ${d}">${d}</span></td>
+          <td>${items.length}</td>
+          <td>${unidades}</td>
+          <td>${prom}</td>
+        </tr>`;
+      }).join('');
+
+      /* Tabla stock bajo */
+      const bajos = productos.filter(p => p.stock <= 5).sort((a,b) => a.stock - b.stock);
+      const tablaS = document.getElementById('tabla-stock-bajo');
+      if (!bajos.length) {
+        tablaS.innerHTML = `<tr><td colspan="3" class="text-center text-muted py-3">Sin productos con stock bajo 👍</td></tr>`;
+      } else {
+        tablaS.innerHTML = bajos.map(p => `
+          <tr>
+            <td>${p.nombre}</td>
+            <td><span class="badge-sport ${p.deporte}">${p.deporte}</span></td>
+            <td class="${p.stock === 0 ? 'stock-zero' : 'stock-low'}">${p.stock === 0 ? 'Agotado' : p.stock}</td>
+          </tr>`).join('');
+      }
+    } catch(e) {
+      console.error(e);
+    }
+  }
+
+  /* ── Tabla productos ── */
+  async function cargarTablaProductos() {
+    const deporte = document.getElementById('filtro-deporte').value;
+    const params = deporte ? { deporte } : {};
+    try {
+      const productos = await productosAPI.getAll(params);
+      const tbody = document.getElementById('tabla-productos');
+      if (!productos.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">Sin productos</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = productos.map(p => `
+        <tr>
+          <td style="color:var(--gray);">${p.id}</td>
+          <td style="font-weight:600;max-width:200px;">${p.nombre}</td>
+          <td><span class="badge-sport ${p.deporte}">${p.deporte}</span></td>
+          <td style="color:var(--gray);font-size:.8rem;">${p.categoria}</td>
+          <td>$${p.precio.toLocaleString('es-MX')}</td>
+          <td class="${p.stock === 0 ? 'stock-zero' : p.stock <= 5 ? 'stock-low' : 'stock-ok'}">${p.stock}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-secondary me-1" style="font-size:.75rem;"
+                    onclick="abrirModalProducto(${p.id})">Editar</button>
+            <button class="btn btn-sm btn-outline-danger" style="font-size:.75rem;"
+                    onclick="pedirEliminar(${p.id}, '${p.nombre.replace(/'/g,"\\'")}')">Eliminar</button>
+          </td>
+        </tr>`).join('');
+    } catch(e) {
+      document.getElementById('tabla-productos').innerHTML =
+        `<tr><td colspan="7" class="text-center text-danger py-3">Error al cargar productos</td></tr>`;
+    }
+  }
+
+  /* ── Abrir modal para crear/editar ── */
+  async function abrirModalProducto(id) {
+    document.getElementById('form-producto').reset();
+    document.getElementById('producto-id').value = '';
+    document.getElementById('error-producto').textContent = '';
+
+    if (id) {
+      document.getElementById('modal-titulo').textContent = 'Editar producto';
+      try {
+        const p = await productosAPI.getById(id);
+        document.getElementById('producto-id').value    = p.id;
+        document.getElementById('p-nombre').value       = p.nombre;
+        document.getElementById('p-descripcion').value  = p.descripcion;
+        document.getElementById('p-precio').value       = p.precio;
+        document.getElementById('p-stock').value        = p.stock;
+        document.getElementById('p-deporte').value      = p.deporte;
+        document.getElementById('p-categoria').value    = p.categoria;
+        document.getElementById('p-marca').value        = p.marca || '';
+        document.getElementById('p-color').value        = p.color || '';
+      } catch { return; }
+    } else {
+      document.getElementById('modal-titulo').textContent = 'Nuevo producto';
+    }
+    modalProducto.show();
+  }
+
+  /* ── Guardar (crear o actualizar) ── */
+  async function guardarProducto() {
+    const id = document.getElementById('producto-id').value;
+    const errEl = document.getElementById('error-producto');
+    errEl.textContent = '';
+
+    const data = {
+      nombre:      document.getElementById('p-nombre').value.trim(),
+      descripcion: document.getElementById('p-descripcion').value.trim(),
+      precio:      parseFloat(document.getElementById('p-precio').value),
+      stock:       parseInt(document.getElementById('p-stock').value),
+      deporte:     document.getElementById('p-deporte').value,
+      categoria:   document.getElementById('p-categoria').value,
+      marca:       document.getElementById('p-marca').value.trim(),
+      color:       document.getElementById('p-color').value.trim(),
+    };
+
+    if (!data.nombre || !data.deporte || !data.categoria || isNaN(data.precio) || isNaN(data.stock)) {
+      errEl.textContent = 'Completa todos los campos obligatorios.';
+      return;
+    }
+
+    try {
+      if (id) {
+        await productosAPI.actualizar(id, data);
+        mostrarToast('Producto actualizado.', 'success');
+      } else {
+        await productosAPI.crear(data);
+        mostrarToast('Producto creado.', 'success');
+      }
+      modalProducto.hide();
+      cargarTablaProductos();
+      cargarDashboard();
+    } catch(e) {
+      errEl.textContent = e.message || 'Error al guardar.';
+    }
+  }
+
+  /* ── Eliminar ── */
+  function pedirEliminar(id, nombre) {
+    idParaEliminar = id;
+    document.getElementById('nombre-eliminar').textContent = nombre;
+    modalEliminar.show();
+  }
+
+  async function confirmarEliminar() {
+    if (!idParaEliminar) return;
+    try {
+      await productosAPI.eliminar(idParaEliminar);
+      mostrarToast('Producto eliminado.', 'success');
+      modalEliminar.hide();
+      cargarTablaProductos();
+      cargarDashboard();
+    } catch(e) {
+      mostrarToast('Error al eliminar.', 'error');
+    }
+    idParaEliminar = null;
+  }
+
+  /* ── Init ── */
+  document.addEventListener('DOMContentLoaded', cargarDashboard);
+</script>
+
+</body>
+</html>

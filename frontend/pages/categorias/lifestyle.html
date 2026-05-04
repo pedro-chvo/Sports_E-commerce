@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fútbol — SportZone</title>
+  <title>Lifestyle — SportZone</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="/src/css/styles.css">
@@ -25,12 +25,12 @@
           </a>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="/pages/categorias/basquetbol.html">🏀 Basquetbol</a></li>
-            <li><a class="dropdown-item active" href="/pages/categorias/futbol.html">⚽ Fútbol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/futbol.html">⚽ Fútbol</a></li>
             <li><a class="dropdown-item" href="/pages/categorias/voleibol.html">🏐 Voleibol</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/pages/categorias/tenis.html">🎾 Tenis</a></li>
             <li><a class="dropdown-item" href="/pages/categorias/running.html">🏃 Running</a></li>
-            <li><a class="dropdown-item" href="/pages/categorias/lifestyle.html">✨ Lifestyle</a></li>
+            <li><a class="dropdown-item active" href="/pages/categorias/lifestyle.html">✨ Lifestyle</a></li>
             <li><a class="dropdown-item" href="/pages/categorias/training.html">💪 Gym</a></li>
           </ul>
         </li>
@@ -47,13 +47,13 @@
 </nav>
 
 <!-- HERO -->
-<section class="cat-hero" style="background:linear-gradient(140deg,#001a05,#003a0d);">
-  <div class="cat-hero-icon">⚽</div>
+<section class="cat-hero" style="background:linear-gradient(140deg,#130018,#2d0050);">
+  <div class="cat-hero-icon">✨</div>
   <div class="container">
     <p class="cat-hero-eyebrow">SportZone · Categoría</p>
-    <h1 class="cat-hero-title">Fútbol</h1>
+    <h1 class="cat-hero-title">Lifestyle</h1>
     <p class="cat-hero-desc">
-      Tacos, balones, jerseys y accesorios para dominar la cancha.
+      Estilo urbano con ADN deportivo. Zapatillas y ropa que van del gym a la calle.
     </p>
   </div>
 </section>
@@ -65,7 +65,6 @@
       <div class="filter-bar" id="filtros">
         <button class="filter-btn active" data-cat="">Todo</button>
         <button class="filter-btn" data-cat="Calzado">Calzado</button>
-        <button class="filter-btn" data-cat="balones">Balones</button>
         <button class="filter-btn" data-cat="ropa">Ropa</button>
         <button class="filter-btn" data-cat="accesorios">Accesorios</button>
       </div>
@@ -124,7 +123,7 @@
 <script src="/src/js/cart.js"></script>
 <script src="/src/js/catalog.js"></script>
 <script>
-  const DEPORTE = 'futbol';
+  const DEPORTE = 'lifestyle';
   let paginaCat = 1;
   let catActiva = '';
 

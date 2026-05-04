@@ -22,6 +22,12 @@
       <button class="admin-nav-item" onclick="mostrarSeccion('productos', this)">
         <span class="icono">📦</span> Productos
       </button>
+      <button class="admin-nav-item" onclick="mostrarSeccion('usuarios', this)">
+        <span class="icono">👥</span> Usuarios
+      </button>
+      <button class="admin-nav-item" onclick="mostrarSeccion('ventas', this)">
+        <span class="icono">🛒</span> Ventas
+      </button>
     </nav>
     <div style="padding:1.5rem;margin-top:auto;border-top:1px solid rgba(255,255,255,0.08);">
       <a href="/index.html"
@@ -123,15 +129,34 @@
         </button>
       </div>
 
-      <!-- Filtro rápido -->
-      <div class="mb-3 d-flex gap-2 flex-wrap">
+      <!-- Filtros avanzados -->
+      <div class="mb-3 d-flex gap-2 flex-wrap align-items-center">
         <select id="filtro-deporte" class="form-select form-select-sm"
-                style="max-width:160px;" onchange="cargarTablaProductos()">
+                style="max-width:160px;" onchange="resetPaginaProductos()">
           <option value="">Todos los deportes</option>
           <option value="basquetbol">Basquetbol</option>
           <option value="futbol">Fútbol</option>
           <option value="voleibol">Voleibol</option>
+          <option value="tenis">Tenis</option>
+          <option value="running">Running</option>
+          <option value="lifestyle">Lifestyle</option>
+          <option value="gym">Gym</option>
         </select>
+        <select id="filtro-categoria" class="form-select form-select-sm"
+                style="max-width:150px;" onchange="resetPaginaProductos()">
+          <option value="">Todas las categorías</option>
+          <option value="Calzado">Calzado</option>
+          <option value="balones">Balones</option>
+          <option value="ropa">Ropa</option>
+          <option value="accesorios">Accesorios</option>
+        </select>
+        <select id="filtro-limit" class="form-select form-select-sm"
+                style="max-width:120px;" onchange="resetPaginaProductos()">
+          <option value="10">10 por pág.</option>
+          <option value="20">20 por pág.</option>
+          <option value="50">50 por pág.</option>
+        </select>
+        <span id="productos-info" class="text-muted" style="font-size:.8rem;"></span>
       </div>
 
       <div class="admin-table-wrap">
@@ -148,6 +173,68 @@
             </tr>
           </thead>
           <tbody id="tabla-productos">
+            <tr><td colspan="7" class="text-center py-4 text-muted">Cargando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Controles de paginación -->
+      <nav id="paginacion-productos" class="mt-3 d-none">
+        <ul class="pagination pagination-sm justify-content-center mb-0" id="lista-paginas"></ul>
+      </nav>
+    </section>
+
+    <!-- ─── USUARIOS ─── -->
+    <section class="admin-section" id="sec-usuarios">
+      <div class="admin-page-title">Gestión de Usuarios</div>
+      <div class="admin-table-wrap">
+        <table class="table table-borderless mb-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Rol</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-usuarios">
+            <tr><td colspan="5" class="text-center py-4 text-muted">Cargando…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ─── VENTAS ─── -->
+    <section class="admin-section" id="sec-ventas">
+      <div class="admin-page-title">Ventas</div>
+
+      <div class="mb-3 d-flex gap-2 flex-wrap align-items-center">
+        <select id="filtro-estatus" class="form-select form-select-sm" style="max-width:180px;"
+                onchange="cargarTablaVentas()">
+          <option value="">Todos los estatus</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="procesando">Procesando</option>
+          <option value="enviado">Enviado</option>
+          <option value="entregado">Entregado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+
+      <div class="admin-table-wrap">
+        <table class="table table-borderless mb-0">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Usuario</th>
+              <th>Productos</th>
+              <th>Total</th>
+              <th>Estatus</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-ventas">
             <tr><td colspan="7" class="text-center py-4 text-muted">Cargando…</td></tr>
           </tbody>
         </table>
@@ -243,6 +330,32 @@
   </div>
 </div>
 
+<!-- ═══ MODAL CAMBIAR ESTATUS ═══ -->
+<div class="modal fade" id="modalEstatus" tabindex="-1">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cambiar estatus</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:.85rem;color:var(--gray);">Venta <strong id="estatus-venta-id"></strong></p>
+        <select class="form-select form-select-sm" id="select-estatus">
+          <option value="pendiente">Pendiente</option>
+          <option value="procesando">Procesando</option>
+          <option value="enviado">Enviado</option>
+          <option value="entregado">Entregado</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="confirmarCambioEstatus()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/src/js/auth.js"></script>
 <script src="/src/js/api.js"></script>
@@ -254,8 +367,10 @@
   }
 
   let idParaEliminar = null;
+  let idVentaEstatus = null;
   const modalProducto = new bootstrap.Modal(document.getElementById('modalProducto'));
   const modalEliminar = new bootstrap.Modal(document.getElementById('modalEliminar'));
+  const modalEstatus  = new bootstrap.Modal(document.getElementById('modalEstatus'));
 
   /* ── Navegación por secciones ── */
   function mostrarSeccion(nombre, btn) {
@@ -265,6 +380,8 @@
     btn.classList.add('active');
     if (nombre === 'productos') cargarTablaProductos();
     if (nombre === 'dashboard') cargarDashboard();
+    if (nombre === 'usuarios')  cargarTablaUsuarios();
+    if (nombre === 'ventas')    cargarTablaVentas();
   }
 
   /* ── Dashboard ── */
@@ -310,17 +427,38 @@
     }
   }
 
-  /* ── Tabla productos ── */
+  /* ── Tabla productos con paginación ── */
+  let paginaProductos = 1;
+
+  function resetPaginaProductos() {
+    paginaProductos = 1;
+    cargarTablaProductos();
+  }
+
   async function cargarTablaProductos() {
-    const deporte = document.getElementById('filtro-deporte').value;
-    const params = deporte ? { deporte } : {};
+    const deporte   = document.getElementById('filtro-deporte').value;
+    const categoria = document.getElementById('filtro-categoria').value;
+    const limit     = parseInt(document.getElementById('filtro-limit').value) || 10;
+    const params = { page: paginaProductos, limit };
+    if (deporte)   params.deporte   = deporte;
+    if (categoria) params.categoria = categoria;
+
+    const tbody = document.getElementById('tabla-productos');
     try {
-      const productos = await productosAPI.getAll(params);
-      const tbody = document.getElementById('tabla-productos');
+      const resp = await productosAPI.getAll(params);
+      const productos   = resp.data;
+      const totalPages  = resp.totalPages;
+      const total       = resp.total;
+
+      document.getElementById('productos-info').textContent =
+        `${total} producto${total !== 1 ? 's' : ''} — página ${paginaProductos} de ${totalPages}`;
+
       if (!productos.length) {
         tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">Sin productos</td></tr>`;
+        document.getElementById('paginacion-productos').classList.add('d-none');
         return;
       }
+
       tbody.innerHTML = productos.map(p => `
         <tr>
           <td style="color:var(--gray);">${p.id}</td>
@@ -336,10 +474,56 @@
                     onclick="pedirEliminar(${p.id}, '${p.nombre.replace(/'/g,"\\'")}')">Eliminar</button>
           </td>
         </tr>`).join('');
+
+      renderPaginacionProductos(totalPages);
     } catch(e) {
-      document.getElementById('tabla-productos').innerHTML =
+      tbody.innerHTML =
         `<tr><td colspan="7" class="text-center text-danger py-3">Error al cargar productos</td></tr>`;
     }
+  }
+
+  function renderPaginacionProductos(totalPages) {
+    const nav = document.getElementById('paginacion-productos');
+    const ul  = document.getElementById('lista-paginas');
+
+    if (totalPages <= 1) { nav.classList.add('d-none'); return; }
+    nav.classList.remove('d-none');
+
+    let items = '';
+
+    items += `<li class="page-item ${paginaProductos === 1 ? 'disabled' : ''}">
+      <a class="page-link" href="#" onclick="irPaginaProductos(${paginaProductos - 1});return false;">‹</a>
+    </li>`;
+
+    const inicio = Math.max(1, paginaProductos - 2);
+    const fin    = Math.min(totalPages, paginaProductos + 2);
+
+    if (inicio > 1) {
+      items += `<li class="page-item"><a class="page-link" href="#" onclick="irPaginaProductos(1);return false;">1</a></li>`;
+      if (inicio > 2) items += `<li class="page-item disabled"><span class="page-link">…</span></li>`;
+    }
+
+    for (let i = inicio; i <= fin; i++) {
+      items += `<li class="page-item ${i === paginaProductos ? 'active' : ''}">
+        <a class="page-link" href="#" onclick="irPaginaProductos(${i});return false;">${i}</a>
+      </li>`;
+    }
+
+    if (fin < totalPages) {
+      if (fin < totalPages - 1) items += `<li class="page-item disabled"><span class="page-link">…</span></li>`;
+      items += `<li class="page-item"><a class="page-link" href="#" onclick="irPaginaProductos(${totalPages});return false;">${totalPages}</a></li>`;
+    }
+
+    items += `<li class="page-item ${paginaProductos === totalPages ? 'disabled' : ''}">
+      <a class="page-link" href="#" onclick="irPaginaProductos(${paginaProductos + 1});return false;">›</a>
+    </li>`;
+
+    ul.innerHTML = items;
+  }
+
+  function irPaginaProductos(pagina) {
+    paginaProductos = pagina;
+    cargarTablaProductos();
   }
 
   /* ── Abrir modal para crear/editar ── */
@@ -416,15 +600,141 @@
   async function confirmarEliminar() {
     if (!idParaEliminar) return;
     try {
-      await productosAPI.eliminar(idParaEliminar);
-      mostrarToast('Producto eliminado.', 'success');
-      modalEliminar.hide();
-      cargarTablaProductos();
-      cargarDashboard();
+      if (String(idParaEliminar).startsWith('usuario_')) {
+        const uid = parseInt(idParaEliminar.replace('usuario_', ''));
+        await usuariosAPI.eliminar(uid);
+        mostrarToast('Usuario eliminado.', 'success');
+        modalEliminar.hide();
+        cargarTablaUsuarios();
+      } else {
+        await productosAPI.eliminar(idParaEliminar);
+        mostrarToast('Producto eliminado.', 'success');
+        modalEliminar.hide();
+        cargarTablaProductos();
+        cargarDashboard();
+      }
     } catch(e) {
-      mostrarToast('Error al eliminar.', 'error');
+      mostrarToast(e.message || 'Error al eliminar.', 'error');
     }
     idParaEliminar = null;
+  }
+
+  /* ── Tabla usuarios ── */
+  const miId = (() => { try { return JSON.parse(atob(localStorage.getItem('token').split('.')[1])).id; } catch { return null; } })();
+
+  async function cargarTablaUsuarios() {
+    const tbody = document.getElementById('tabla-usuarios');
+    try {
+      const usuarios = await usuariosAPI.getAll();
+      if (!usuarios.length) {
+        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-4">Sin usuarios</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = usuarios.map(u => {
+        const esMiCuenta = u.id === miId;
+        const rolBadge = u.rol === 'admin'
+          ? `<span class="badge bg-danger">admin</span>`
+          : `<span class="badge bg-secondary">usuario</span>`;
+        const btnRol = esMiCuenta ? '' :
+          `<button class="btn btn-sm btn-outline-secondary me-1" style="font-size:.75rem;"
+                   onclick="toggleRol(${u.id}, '${u.rol}')">
+             ${u.rol === 'admin' ? 'Quitar admin' : 'Hacer admin'}
+           </button>`;
+        const btnDel = esMiCuenta ? '' :
+          `<button class="btn btn-sm btn-outline-danger" style="font-size:.75rem;"
+                   onclick="pedirEliminarUsuario(${u.id}, '${u.nombre.replace(/'/g,"\\'")}')">
+             Eliminar
+           </button>`;
+        return `<tr>
+          <td style="color:var(--gray);">${u.id}</td>
+          <td style="font-weight:600;">${u.nombre}${esMiCuenta ? ' <span style="font-size:.7rem;color:var(--gray);">(tú)</span>' : ''}</td>
+          <td style="color:var(--gray);font-size:.85rem;">${u.email}</td>
+          <td>${rolBadge}</td>
+          <td>${btnRol}${btnDel}</td>
+        </tr>`;
+      }).join('');
+    } catch(e) {
+      tbody.innerHTML = `<tr><td colspan="5" class="text-center text-danger py-3">Error al cargar usuarios</td></tr>`;
+    }
+  }
+
+  async function toggleRol(id, rolActual) {
+    const nuevoRol = rolActual === 'admin' ? 'usuario' : 'admin';
+    try {
+      await usuariosAPI.cambiarRol(id, nuevoRol);
+      mostrarToast('Rol actualizado.', 'success');
+      cargarTablaUsuarios();
+    } catch(e) {
+      mostrarToast(e.message || 'Error al cambiar rol.', 'error');
+    }
+  }
+
+  async function pedirEliminarUsuario(id, nombre) {
+    idParaEliminar = 'usuario_' + id;
+    document.getElementById('nombre-eliminar').textContent = nombre;
+    modalEliminar.show();
+  }
+
+  /* ── Tabla ventas ── */
+  const ESTATUS_CLASES = {
+    pendiente: 'bg-warning text-dark', procesando: 'bg-info text-dark',
+    enviado: 'bg-primary', entregado: 'bg-success', cancelado: 'bg-danger'
+  };
+
+  async function cargarTablaVentas() {
+    const estatus = document.getElementById('filtro-estatus').value;
+    const params = estatus ? { estatus } : {};
+    const tbody = document.getElementById('tabla-ventas');
+    try {
+      const ventas = await ventasAPI.getAll(params);
+      if (!ventas.length) {
+        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">Sin ventas</td></tr>`;
+        return;
+      }
+      tbody.innerHTML = ventas.map(v => {
+        const fecha = new Date(v.fecha).toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' });
+        const resumen = v.productos.map(p => `${p.nombre} ×${p.cantidad}`).join(', ');
+        const cls = ESTATUS_CLASES[v.estatus] || 'bg-secondary';
+        return `<tr>
+          <td style="color:var(--gray);">#${v.id}</td>
+          <td style="font-size:.85rem;">${v.usuarioNombre}<br><span style="color:var(--gray);font-size:.75rem;">${v.usuarioEmail}</span></td>
+          <td style="font-size:.78rem;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+              title="${resumen}">${resumen}</td>
+          <td style="font-weight:600;">$${v.total.toLocaleString('es-MX')}</td>
+          <td><span class="badge ${cls}">${v.estatus}</span></td>
+          <td style="font-size:.8rem;color:var(--gray);">${fecha}</td>
+          <td>
+            <button class="btn btn-sm btn-outline-secondary" style="font-size:.75rem;"
+                    onclick="abrirModalEstatus(${v.id}, '${v.estatus}')">
+              Cambiar estatus
+            </button>
+          </td>
+        </tr>`;
+      }).join('');
+    } catch(e) {
+      tbody.innerHTML = `<tr><td colspan="7" class="text-center text-danger py-3">Error al cargar ventas</td></tr>`;
+    }
+  }
+
+  function abrirModalEstatus(id, estatusActual) {
+    idVentaEstatus = id;
+    document.getElementById('estatus-venta-id').textContent = '#' + id;
+    document.getElementById('select-estatus').value = estatusActual;
+    modalEstatus.show();
+  }
+
+  async function confirmarCambioEstatus() {
+    if (!idVentaEstatus) return;
+    const estatus = document.getElementById('select-estatus').value;
+    try {
+      await ventasAPI.cambiarEstatus(idVentaEstatus, estatus);
+      mostrarToast('Estatus actualizado.', 'success');
+      modalEstatus.hide();
+      cargarTablaVentas();
+    } catch(e) {
+      mostrarToast(e.message || 'Error al actualizar estatus.', 'error');
+    }
+    idVentaEstatus = null;
   }
 
   /* ── Init ── */

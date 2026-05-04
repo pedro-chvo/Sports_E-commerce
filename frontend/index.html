@@ -23,14 +23,19 @@
 
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav me-auto ms-4 gap-1">
-        <li class="nav-item">
-          <a class="nav-link" href="/pages/categorias/basquetbol.html">Basquetbol</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/pages/categorias/futbol.html">Fútbol</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/pages/categorias/voleibol.html">Voleibol</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Deportes
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/pages/categorias/basquetbol.html">🏀 Basquetbol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/futbol.html">⚽ Fútbol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/voleibol.html">🏐 Voleibol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/tenis.html">🎾 Tenis</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/running.html">🏃 Running</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/lifestyle.html">✨ Lifestyle</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/training.html">💪 Gym</a></li>
+          </ul>
         </li>
       </ul>
 
@@ -50,13 +55,13 @@
 ═══════════════════════════════ -->
 <section class="hero">
   <div class="hero-content">
-    <p class="hero-eyebrow">Nueva temporada 2025</p>
+    <p class="hero-eyebrow">Nueva temporada 2026</p>
     <h1 class="hero-title">Eleva<br>Tu <span>Juego</span></h1>
     <p class="hero-subtitle">
       Equipamiento de alto rendimiento para atletas que no se conforman con menos.
     </p>
     <div class="hero-actions">
-      <a href="#productos-destacados" class="btn btn-primary">Ver productos</a>
+      <a href="#trending" class="btn btn-primary">Ver trending</a>
       <a href="#deportes" class="btn btn-outline-light">Nuestros deportes</a>
     </div>
   </div>
@@ -70,7 +75,8 @@
     <div class="section-header">
       <h2 class="section-title">Deportes</h2>
     </div>
-    <div class="row g-3">
+    <!-- Fila principal: 3 deportes grandes -->
+    <div class="row g-3 mb-3">
       <div class="col-md-4">
         <a href="/pages/categorias/basquetbol.html" class="sport-card sport-bg-basket">
           <div class="sport-card-icon">🏀</div>
@@ -105,19 +111,66 @@
         </a>
       </div>
     </div>
+    <!-- Fila secundaria: 4 deportes más pequeños -->
+    <div class="row g-3">
+      <div class="col-6 col-md-3">
+        <a href="/pages/categorias/tenis.html" class="sport-card sport-bg-tenis" style="min-height:140px">
+          <div class="sport-card-icon" style="font-size:2rem">🎾</div>
+          <div class="sport-card-overlay"></div>
+          <div class="sport-card-content">
+            <div class="sport-card-label">Categoría</div>
+            <div class="sport-card-title">Tenis</div>
+            <span class="sport-card-cta">Explorar →</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="/pages/categorias/running.html" class="sport-card sport-bg-running" style="min-height:140px">
+          <div class="sport-card-icon" style="font-size:2rem">🏃</div>
+          <div class="sport-card-overlay"></div>
+          <div class="sport-card-content">
+            <div class="sport-card-label">Categoría</div>
+            <div class="sport-card-title">Running</div>
+            <span class="sport-card-cta">Explorar →</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="/pages/categorias/lifestyle.html" class="sport-card sport-bg-lifestyle" style="min-height:140px">
+          <div class="sport-card-icon" style="font-size:2rem">✨</div>
+          <div class="sport-card-overlay"></div>
+          <div class="sport-card-content">
+            <div class="sport-card-label">Categoría</div>
+            <div class="sport-card-title">Lifestyle</div>
+            <span class="sport-card-cta">Explorar →</span>
+          </div>
+        </a>
+      </div>
+      <div class="col-6 col-md-3">
+        <a href="/pages/categorias/training.html" class="sport-card sport-bg-gym" style="min-height:140px">
+          <div class="sport-card-icon" style="font-size:2rem">💪</div>
+          <div class="sport-card-overlay"></div>
+          <div class="sport-card-content">
+            <div class="sport-card-label">Categoría</div>
+            <div class="sport-card-title">Gym</div>
+            <span class="sport-card-cta">Explorar →</span>
+          </div>
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ═══════════════════════════════
-     PRODUCTOS DESTACADOS
+     TRENDING
 ═══════════════════════════════ -->
-<section id="productos-destacados" class="py-5" style="background-color:var(--bg-alt);">
+<section id="trending" class="py-5" style="background-color:var(--bg-alt);">
   <div class="container">
     <div class="section-header">
-      <h2 class="section-title">Lo más nuevo</h2>
-      <a href="/pages/categorias/basquetbol.html" class="section-link">Ver todo</a>
+      <h2 class="section-title">Trending</h2>
+      <span style="color:var(--gray);font-size:.85rem">Los más populares del momento</span>
     </div>
-    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="grid-destacados">
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="grid-trending">
       <div class="loading-box col-12"><div class="spinner"></div>Cargando…</div>
     </div>
   </div>
@@ -131,25 +184,25 @@
     <div class="promo-row">
 
       <div class="promo-banner promo-bg-calzado"
-           onclick="window.location.href='/pages/categorias/basquetbol.html?categoria=Calzado'">
+           onclick="window.location.href='/pages/categorias/running.html'">
         <div class="promo-icon">👟</div>
         <div class="promo-banner-inner">
           <div class="promo-tag">Nueva colección</div>
           <div class="promo-title">Calzado<br>deportivo</div>
-          <a href="/pages/categorias/basquetbol.html" class="btn btn-outline-light btn-sm">
+          <a href="/pages/categorias/running.html" class="btn btn-outline-light btn-sm">
             Ver calzado
           </a>
         </div>
       </div>
 
       <div class="promo-banner promo-bg-ropa"
-           onclick="window.location.href='/pages/categorias/futbol.html?categoria=ropa'">
+           onclick="window.location.href='/pages/categorias/lifestyle.html'">
         <div class="promo-icon">👕</div>
         <div class="promo-banner-inner">
-          <div class="promo-tag">Jerseys y shorts</div>
+          <div class="promo-tag">Streetwear & Sport</div>
           <div class="promo-title">Ropa de<br>rendimiento</div>
-          <a href="/pages/categorias/futbol.html" class="btn btn-outline-light btn-sm">
-            Ver ropa
+          <a href="/pages/categorias/lifestyle.html" class="btn btn-outline-light btn-sm">
+            Ver lifestyle
           </a>
         </div>
       </div>
@@ -167,7 +220,7 @@
       <div class="col-lg-4">
         <div class="footer-brand">SPORT<span>ZONE</span></div>
         <p class="footer-desc">
-          Equipamiento de alto rendimiento para basquetbol, fútbol y voleibol.
+          Equipamiento de alto rendimiento para todos los deportes y estilos de vida.
         </p>
       </div>
       <div class="col-6 col-lg-2">
@@ -176,17 +229,13 @@
           <li><a href="/pages/categorias/basquetbol.html">Basquetbol</a></li>
           <li><a href="/pages/categorias/futbol.html">Fútbol</a></li>
           <li><a href="/pages/categorias/voleibol.html">Voleibol</a></li>
+          <li><a href="/pages/categorias/tenis.html">Tenis</a></li>
+          <li><a href="/pages/categorias/running.html">Running</a></li>
+          <li><a href="/pages/categorias/lifestyle.html">Lifestyle</a></li>
+          <li><a href="/pages/categorias/training.html">Gym</a></li>
         </ul>
       </div>
-      <div class="col-6 col-lg-2">
-        <div class="footer-col-title">Categorías</div>
-        <ul class="footer-list">
-          <li><a href="#">Calzado</a></li>
-          <li><a href="#">Balones</a></li>
-          <li><a href="#">Ropa</a></li>
-          <li><a href="#">Accesorios</a></li>
-        </ul>
-      </div>
+
       <div class="col-6 col-lg-2">
         <div class="footer-col-title">Cuenta</div>
         <ul class="footer-list">
@@ -197,7 +246,7 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2025 SportZone. Todos los derechos reservados.</span>
+      <span>&copy; 2026 SportZone. Todos los derechos reservados.</span>
     </div>
   </div>
 </footer>
@@ -210,7 +259,7 @@
 <script src="/src/js/catalog.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    cargarProductos('grid-destacados', {});
+    cargarProductos('grid-trending', { destacado: 'true' }, 4);
   });
 </script>
 

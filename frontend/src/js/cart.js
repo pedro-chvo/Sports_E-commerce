@@ -1,8 +1,6 @@
-/* ── Cart & shared UI utilities ── */
 
 const CART_KEY = 'sportzone_cart';
 
-/* ── LocalStorage helpers ── */
 function obtenerCarrito() {
   return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
 }
@@ -11,7 +9,6 @@ function guardarCarrito(c) {
   actualizarBadge();
 }
 
-/* ── Badge ── */
 function actualizarBadge() {
   const total = obtenerCarrito().reduce((s, i) => s + i.cantidad, 0);
   document.querySelectorAll('.cart-count').forEach(el => {
@@ -20,7 +17,6 @@ function actualizarBadge() {
   });
 }
 
-/* ── Toast notifications ── */
 function mostrarToast(msg, tipo) {
   let wrap = document.querySelector('.toast-wrap');
   if (!wrap) {
@@ -35,7 +31,6 @@ function mostrarToast(msg, tipo) {
   setTimeout(() => t.remove(), 3200);
 }
 
-/* ── Add to cart ── */
 function agregarAlCarrito(productoId) {
   if (!estaLogueado()) {
     mostrarToast('Debes iniciar sesión para agregar al carrito.', 'error');
@@ -58,7 +53,6 @@ function agregarAlCarrito(productoId) {
     .catch(() => mostrarToast('Error al agregar el producto.', 'error'));
 }
 
-/* ── Navbar auth section ── */
 function renderNavAuth() {
   const el = document.getElementById('nav-auth');
   if (!el) return;
@@ -76,6 +70,9 @@ function renderNavAuth() {
         </button>
         <ul class="dropdown-menu dropdown-menu-end">
           ${adminLink}
+          <li><a class="dropdown-item" href="/pages/perfil.html">Mi perfil</a></li>
+          <li><a class="dropdown-item" href="/pages/pedidos.html">Mis pedidos</a></li>
+          <li><hr class="dropdown-divider"></li>
           <li><a class="dropdown-item" href="#" onclick="logout();return false;">Cerrar sesión</a></li>
         </ul>
       </div>`;

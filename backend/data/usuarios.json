@@ -3,7 +3,21 @@
     "id": 1,
     "nombre": "Admin",
     "email": "admin@sports.com",
-    "password": "$2b$10$I3r.NMBMX4426EsJE.NWZe1gPXEgMXQ.2OTxpfuZDzfsUdLj3mF7i",
+    "password": "$2b$10$jifVXXCffOdfyzh/G3Fbbu.DPCvEwA04Y4jnTgwn0b3KgGjMfZ0Ey",
     "rol": "admin"
+  },
+  {
+    "id": 3,
+    "nombre": "Pedro Chávez",
+    "email": "pedrort872@gmail.com",
+    "password": "$2b$10$xlKhdeBRS/05JDtACdqOH.HiVIMI3DrrQRLJq3vOLM.RS/p/Z/pwq",
+    "rol": "admin"
+  },
+  {
+    "id": 4,
+    "nombre": "Juan Actualizado",
+    "email": "juan.nuevo@test.com",
+    "password": "$2b$10$5qeYlxBMixCKj2k9R2EE1OJ00ZSs3jMpwhOKG5UQ4U62bkw2zKsV2",
+    "rol": "usuario"
   }
 ]

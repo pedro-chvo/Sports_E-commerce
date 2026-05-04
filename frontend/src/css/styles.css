@@ -1,11 +1,8 @@
-/* =============================================
-   SPORTZONE — Global Stylesheet
-   Paleta: #111111 | #E63946 | #FFFFFF | #F8F8F8
-   ============================================= */
+/* sportzone — global stylesheet */
 
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
 
-/* ── Variables ── */
+/* variables */
 :root {
   --dark:         #111111;
   --accent:       #E63946;
@@ -24,7 +21,7 @@
   --t: 0.2s ease;
 }
 
-/* ── Reset ── */
+/* reset */
 *, *::before, *::after { box-sizing: border-box; }
 body {
   font-family: var(--font-body);
@@ -43,9 +40,7 @@ h1,h2,h3,h4,h5,h6 {
   margin-bottom: 0.5rem;
 }
 
-/* =============================================
-   NAVBAR
-   ============================================= */
+/* navbar */
 .navbar {
   background-color: var(--white) !important;
   border-bottom: 1px solid var(--border);
@@ -93,7 +88,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 .dropdown-item:hover { background-color: rgba(230,57,70,0.08); color: var(--accent); }
 
-/* Cart badge */
+/* cart badge */
 .nav-cart-link {
   position: relative;
   font-size: 1.3rem;
@@ -114,9 +109,7 @@ h1,h2,h3,h4,h5,h6 {
   display: flex; align-items: center; justify-content: center;
 }
 
-/* =============================================
-   BUTTONS
-   ============================================= */
+/* buttons */
 .btn-primary {
   background-color: var(--accent) !important;
   border-color: var(--accent) !important;
@@ -146,9 +139,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 .btn-outline-light:hover { background-color: var(--white) !important; color: var(--dark) !important; }
 
-/* =============================================
-   HERO (INDEX)
-   ============================================= */
+/* hero */
 .hero {
   position: relative;
   height: 88vh;
@@ -200,9 +191,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
-/* =============================================
-   SECTION HEADERS
-   ============================================= */
+/* section headers */
 .section-header {
   display: flex;
   align-items: baseline;
@@ -232,9 +221,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 .section-link:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
-/* =============================================
-   SPORT CARDS (HOME)
-   ============================================= */
+/* sport cards */
 .sport-card {
   position: relative;
   border-radius: var(--radius);
@@ -299,13 +286,15 @@ h1,h2,h3,h4,h5,h6 {
 }
 .sport-card:hover .sport-card-icon { opacity: 0.22; }
 
-.sport-bg-basket { background: linear-gradient(140deg, #1a0a00, #4a1a00); }
-.sport-bg-futbol  { background: linear-gradient(140deg, #001a05, #003d0f); }
-.sport-bg-voley   { background: linear-gradient(140deg, #000d1a, #00204d); }
+.sport-bg-basket    { background: linear-gradient(140deg, #1a0a00, #4a1a00); }
+.sport-bg-futbol    { background: linear-gradient(140deg, #001a05, #003d0f); }
+.sport-bg-voley     { background: linear-gradient(140deg, #000d1a, #00204d); }
+.sport-bg-tenis     { background: linear-gradient(140deg, #1a0e00, #3d2600); }
+.sport-bg-running   { background: linear-gradient(140deg, #001a14, #003d2e); }
+.sport-bg-lifestyle { background: linear-gradient(140deg, #130018, #2d0050); }
+.sport-bg-gym       { background: linear-gradient(140deg, #1a0000, #400000); }
 
-/* =============================================
-   PRODUCT CARDS
-   ============================================= */
+/* product cards */
 .product-card {
   background-color: var(--white);
   border-radius: var(--radius);
@@ -349,6 +338,12 @@ h1,h2,h3,h4,h5,h6 {
   color: var(--dark);
   line-height: 1.3;
   margin-bottom: 0.2rem;
+  min-height: calc(1.3em * 2);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 .product-card-brand { font-size: 0.75rem; color: var(--gray); margin-bottom: 0.75rem; }
 .product-card-price { font-size: 1.05rem; font-weight: 700; color: var(--accent); margin-bottom: 0.85rem; }
@@ -368,10 +363,20 @@ h1,h2,h3,h4,h5,h6 {
   transition: background-color var(--t);
 }
 .btn-add-cart:hover { background-color: var(--accent); }
+.product-card-link { display: block; color: inherit; text-decoration: none; }
+.product-card-link:hover { color: inherit; }
+.product-card-footer { padding: 0 1.25rem 1.25rem; }
 
-/* =============================================
-   PROMO BANNERS (HOME)
-   ============================================= */
+/* product detail */
+.product-detail-img-wrap { border-radius: var(--radius); overflow: hidden; background: var(--white); box-shadow: var(--shadow-sm); }
+.product-detail-img { width: 100%; height: 400px; object-fit: contain; padding: 1.5rem; }
+.product-detail-name { font-family: var(--font-heading); font-size: 1.9rem; font-weight: 700; line-height: 1.2; margin-bottom: 0.25rem; }
+.product-detail-price { font-size: 1.75rem; font-weight: 700; color: var(--accent); }
+.product-detail-desc { color: var(--gray); font-size: 0.95rem; line-height: 1.7; }
+.product-detail-table th { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--gray); width: 110px; }
+.product-detail-table td { font-size: 0.9rem; }
+
+/* promo banners */
 .promo-row { display: flex; gap: 1rem; flex-wrap: wrap; }
 .promo-banner {
   flex: 1; min-width: 260px;
@@ -417,9 +422,7 @@ h1,h2,h3,h4,h5,h6 {
   pointer-events: none;
 }
 
-/* =============================================
-   CATEGORY PAGE HERO
-   ============================================= */
+/* category hero */
 .cat-hero {
   background-color: var(--dark);
   padding: 4.5rem 0 3.5rem;
@@ -459,9 +462,7 @@ h1,h2,h3,h4,h5,h6 {
   pointer-events: none; line-height: 1;
 }
 
-/* =============================================
-   FILTER BAR
-   ============================================= */
+/* filter bar */
 .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 .filter-btn {
   padding: 0.38rem 1.1rem;
@@ -478,9 +479,7 @@ h1,h2,h3,h4,h5,h6 {
   color: var(--white);
 }
 
-/* =============================================
-   CART PAGE
-   ============================================= */
+/* cart */
 .page-cart { background-color: var(--bg-alt); min-height: 80vh; }
 .cart-item {
   background-color: var(--white);
@@ -558,9 +557,7 @@ h1,h2,h3,h4,h5,h6 {
   border-top: 1px solid var(--border);
 }
 
-/* =============================================
-   ADMIN PANEL
-   ============================================= */
+/* admin */
 .admin-layout { display: flex; min-height: 100vh; }
 .admin-sidebar {
   width: 230px; min-width: 230px;
@@ -658,15 +655,18 @@ h1,h2,h3,h4,h5,h6 {
 .badge-sport.basquetbol { background-color: #FFF3E0; color: #C45000; }
 .badge-sport.futbol     { background-color: #E8F5E9; color: #2E7D32; }
 .badge-sport.voleibol   { background-color: #E3F2FD; color: #1565C0; }
+.badge-sport.tenis      { background-color: #FFFDE7; color: #F57F17; }
+.badge-sport.running    { background-color: #E0F2F1; color: #00695C; }
+.badge-sport.training   { background-color: #FCE4EC; color: #AD1457; }
+.badge-sport.lifestyle  { background-color: #EDE7F6; color: #4527A0; }
+.badge-sport.gym        { background-color: #E8EAF6; color: #283593; }
 .badge-sport.otro       { background-color: #F3E8FF; color: #6B21A8; }
 
 .stock-ok  { color: #16a34a; font-weight: 600; }
 .stock-low { color: var(--accent); font-weight: 700; }
 .stock-zero { color: #DC2626; font-weight: 700; }
 
-/* =============================================
-   AUTH PAGE
-   ============================================= */
+/* auth */
 .auth-page {
   min-height: 100vh; display: flex;
   align-items: center; background-color: var(--bg);
@@ -723,9 +723,7 @@ h1,h2,h3,h4,h5,h6 {
   text-align: center; min-height: 1.2rem;
 }
 
-/* =============================================
-   FOOTER
-   ============================================= */
+/* footer */
 .footer {
   background-color: var(--dark);
   color: rgba(255,255,255,0.65);
@@ -756,9 +754,7 @@ h1,h2,h3,h4,h5,h6 {
   flex-wrap: wrap; gap: 0.5rem;
 }
 
-/* =============================================
-   ESTADOS Y UTILIDADES
-   ============================================= */
+/* utilidades */
 .empty-state { text-align: center; padding: 4rem 1rem; color: var(--gray); }
 .empty-state-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
 .empty-state-title {
@@ -791,7 +787,7 @@ h1,h2,h3,h4,h5,h6 {
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Modal overrides */
+/* modal */
 .modal-header { border-bottom: 1px solid var(--border); padding: 1.25rem 1.5rem; }
 .modal-title {
   font-family: var(--font-heading); font-weight: 700;
@@ -799,9 +795,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 .modal-footer { border-top: 1px solid var(--border); }
 
-/* =============================================
-   RESPONSIVE
-   ============================================= */
+/* responsive */
 @media (max-width: 991px) {
   .admin-sidebar { width: 200px; min-width: 200px; }
 }

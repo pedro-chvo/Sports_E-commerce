@@ -2,12 +2,22 @@ const { leer, escribir } = require('../utils/jsonDB');
 
 const getProductos = (req, res) => {
     const productos = leer('productos');
-    const { deporte, categoria, marca } = req.query;
+    const { deporte, categoria, marca, destacado, page, limit } = req.query;
 
     let resultado = productos;
-    if (deporte)   resultado = resultado.filter(p => p.deporte === deporte);
-    if (categoria) resultado = resultado.filter(p => p.categoria === categoria);
-    if (marca)     resultado = resultado.filter(p => p.marca.toLowerCase() === marca.toLowerCase());
+    if (deporte)    resultado = resultado.filter(p => p.deporte === deporte);
+    if (categoria)  resultado = resultado.filter(p => p.categoria === categoria);
+    if (marca)      resultado = resultado.filter(p => p.marca.toLowerCase() === marca.toLowerCase());
+    if (destacado)  resultado = resultado.filter(p => p.destacado === true);
+
+    if (page !== undefined) {
+        const pageNum  = Math.max(1, parseInt(page) || 1);
+        const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 10));
+        const total      = resultado.length;
+        const totalPages = Math.ceil(total / limitNum);
+        const data       = resultado.slice((pageNum - 1) * limitNum, pageNum * limitNum);
+        return res.json({ data, total, page: pageNum, limit: limitNum, totalPages });
+    }
 
     res.json(resultado);
 };

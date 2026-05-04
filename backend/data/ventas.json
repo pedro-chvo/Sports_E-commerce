@@ -1,0 +1,21 @@
+[
+  {
+    "id": 1,
+    "usuarioId": 2,
+    "usuarioNombre": "Pedro Chávez",
+    "usuarioEmail": "pedrort872@gmail.com",
+    "productos": [
+      {
+        "productoId": 3,
+        "nombre": "Tacos de Fútbol F50 TUNIT para Terreno Firme",
+        "marca": "Adidas",
+        "precio": 7999,
+        "cantidad": 2,
+        "subtotal": 15998
+      }
+    ],
+    "total": 15998,
+    "estatus": "entregado",
+    "fecha": "2026-05-04T07:23:41.511Z"
+  }
+]

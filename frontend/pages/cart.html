@@ -114,7 +114,9 @@
     <div class="row g-4">
       <div class="col-lg-4">
         <div class="footer-brand">SPORT<span>ZONE</span></div>
-        <p class="footer-desc">Equipamiento de alto rendimiento.</p>
+        <p class="footer-desc">
+          Equipamiento de alto rendimiento para todos los deportes y estilos de vida.
+        </p>
       </div>
       <div class="col-6 col-lg-2">
         <div class="footer-col-title">Deportes</div>
@@ -122,11 +124,23 @@
           <li><a href="/pages/categorias/basquetbol.html">Basquetbol</a></li>
           <li><a href="/pages/categorias/futbol.html">Fútbol</a></li>
           <li><a href="/pages/categorias/voleibol.html">Voleibol</a></li>
+          <li><a href="/pages/categorias/tenis.html">Tenis</a></li>
+          <li><a href="/pages/categorias/running.html">Running</a></li>
+          <li><a href="/pages/categorias/lifestyle.html">Lifestyle</a></li>
+          <li><a href="/pages/categorias/training.html">Gym</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-col-title">Cuenta</div>
+        <ul class="footer-list">
+          <li><a href="/pages/login.html">Iniciar sesión</a></li>
+          <li><a href="/pages/login.html">Registrarse</a></li>
+          <li><a href="/pages/cart.html">Mi carrito</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <span>&copy; 2025 SportZone.</span>
+      <span>&copy; 2026 SportZone. Todos los derechos reservados.</span>
     </div>
   </div>
 </footer>
@@ -198,16 +212,22 @@
     renderCarrito();
   }
 
-  function checkout() {
+  async function checkout() {
     if (!estaLogueado()) {
       mostrarToast('Debes iniciar sesión para finalizar tu compra.', 'error');
       setTimeout(() => { window.location.href = '/pages/login.html'; }, 1600);
       return;
     }
-    guardarCarrito([]);
-    document.getElementById('carrito-contenido').style.display   = 'none';
-    document.getElementById('carrito-vacio').style.display       = 'none';
-    document.getElementById('carrito-confirmacion').style.display = 'block';
+    const items = obtenerCarrito().map(i => ({ productoId: i.id, cantidad: i.cantidad }));
+    try {
+      await ventasAPI.crear(items);
+      guardarCarrito([]);
+      document.getElementById('carrito-contenido').style.display    = 'none';
+      document.getElementById('carrito-vacio').style.display        = 'none';
+      document.getElementById('carrito-confirmacion').style.display = 'block';
+    } catch (e) {
+      mostrarToast(e.message || 'Error al procesar la compra.', 'error');
+    }
   }
 
   document.addEventListener('DOMContentLoaded', renderCarrito);

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mis Pedidos — SportZone</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/src/css/styles.css">
+</head>
+<body class="page-cart">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="/index.html">SPORT<span>ZONE</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav me-auto ms-4 gap-1">
+        <li class="nav-item"><a class="nav-link" href="/pages/categorias/basquetbol.html">Basquetbol</a></li>
+        <li class="nav-item"><a class="nav-link" href="/pages/categorias/futbol.html">Fútbol</a></li>
+        <li class="nav-item"><a class="nav-link" href="/pages/categorias/voleibol.html">Voleibol</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-3">
+        <a href="/pages/cart.html" class="nav-cart-link">
+          <i class="bi bi-bag"></i>
+          <span class="cart-badge cart-count" style="display:none">0</span>
+        </a>
+        <div id="nav-auth"></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container py-2">
+    <span style="font-size:.75rem;color:var(--gray);">
+      <a href="/index.html" style="color:var(--gray);">Inicio</a>
+      &nbsp;/&nbsp; Mis Pedidos
+    </span>
+  </div>
+</div>
+
+<!-- CONTENIDO -->
+<div class="container py-5">
+  <h1 style="font-family:var(--font-heading);font-size:1.8rem;font-weight:700;
+              text-transform:uppercase;letter-spacing:.04em;margin-bottom:2rem;">
+    Mis Pedidos
+  </h1>
+
+  <!-- Estado vacío -->
+  <div id="pedidos-vacio" class="empty-state" style="display:none;">
+    <div class="empty-state-icon">📦</div>
+    <div class="empty-state-title">Aún no tienes pedidos</div>
+    <p>Cuando realices una compra aparecerá aquí tu historial.</p>
+    <a href="/index.html" class="btn btn-primary mt-3">Ir a comprar</a>
+  </div>
+
+  <!-- Lista de pedidos -->
+  <div id="pedidos-lista"></div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-brand">SPORT<span>ZONE</span></div>
+        <p class="footer-desc">
+          Equipamiento de alto rendimiento para todos los deportes y estilos de vida.
+        </p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-col-title">Cuenta</div>
+        <ul class="footer-list">
+          <li><a href="/pages/perfil.html">Mi perfil</a></li>
+          <li><a href="/pages/pedidos.html">Mis pedidos</a></li>
+          <li><a href="/pages/cart.html">Mi carrito</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 SportZone. Todos los derechos reservados.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/src/js/auth.js"></script>
+<script src="/src/js/api.js"></script>
+<script src="/src/js/cart.js"></script>
+<script>
+  if (!estaLogueado()) {
+    window.location.href = '/pages/login.html';
+  }
+
+  const ESTATUS_CLASES = {
+    pendiente:  'bg-warning text-dark',
+    procesando: 'bg-info text-dark',
+    enviado:    'bg-primary',
+    entregado:  'bg-success',
+    cancelado:  'bg-danger'
+  };
+
+  async function cargarPedidos() {
+    try {
+      const ventas = await ventasAPI.getMias();
+      const contenedor = document.getElementById('pedidos-lista');
+
+      if (!ventas.length) {
+        document.getElementById('pedidos-vacio').style.display = 'block';
+        return;
+      }
+
+      contenedor.innerHTML = ventas.map(v => {
+        const fecha = new Date(v.fecha).toLocaleDateString('es-MX', {
+          day: '2-digit', month: 'long', year: 'numeric'
+        });
+        const cls = ESTATUS_CLASES[v.estatus] || 'bg-secondary';
+        const productosHtml = v.productos.map(p => `
+          <div class="d-flex justify-content-between align-items-center py-2"
+               style="border-bottom:1px solid var(--border);font-size:.85rem;">
+            <div>
+              <span style="font-weight:600;">${p.nombre}</span>
+              <span style="color:var(--gray);margin-left:.5rem;">${p.marca || ''}</span>
+            </div>
+            <div class="text-end">
+              <span style="color:var(--gray);">×${p.cantidad}</span>
+              <span style="font-weight:600;margin-left:.75rem;">$${p.subtotal.toLocaleString('es-MX')}</span>
+            </div>
+          </div>`).join('');
+
+        return `
+          <div class="card border-0 shadow-sm mb-4" style="border-radius:12px;overflow:hidden;">
+            <div class="card-header d-flex justify-content-between align-items-center"
+                 style="background:var(--bg-alt);border-bottom:1px solid var(--border);padding:.875rem 1.25rem;">
+              <div>
+                <span style="font-weight:700;font-family:var(--font-heading);">Pedido #${v.id}</span>
+                <span style="font-size:.8rem;color:var(--gray);margin-left:1rem;">${fecha}</span>
+              </div>
+              <span class="badge ${cls}">${v.estatus}</span>
+            </div>
+            <div class="card-body p-0 px-4 pt-2 pb-3">
+              ${productosHtml}
+              <div class="d-flex justify-content-end mt-3">
+                <span style="font-size:.85rem;color:var(--gray);margin-right:.75rem;">Total</span>
+                <span style="font-weight:700;font-size:1rem;">$${v.total.toLocaleString('es-MX')}</span>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+    } catch(e) {
+      document.getElementById('pedidos-lista').innerHTML =
+        `<div class="alert alert-danger">Error al cargar pedidos: ${e.message}</div>`;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', cargarPedidos);
+</script>
+
+</body>
+</html>

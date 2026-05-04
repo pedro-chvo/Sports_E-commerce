@@ -19,14 +19,20 @@
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
       <ul class="navbar-nav me-auto ms-4 gap-1">
-        <li class="nav-item">
-          <a class="nav-link active" href="/pages/categorias/basquetbol.html">Basquetbol</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/pages/categorias/futbol.html">Fútbol</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/pages/categorias/voleibol.html">Voleibol</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
+            Deportes
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item active" href="/pages/categorias/basquetbol.html">🏀 Basquetbol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/futbol.html">⚽ Fútbol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/voleibol.html">🏐 Voleibol</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/pages/categorias/tenis.html">🎾 Tenis</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/running.html">🏃 Running</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/lifestyle.html">✨ Lifestyle</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/training.html">💪 Gym</a></li>
+          </ul>
         </li>
       </ul>
       <div class="d-flex align-items-center gap-3">
@@ -69,6 +75,9 @@
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="grid-productos">
       <div class="loading-box col-12"><div class="spinner"></div>Cargando…</div>
     </div>
+    <nav id="paginacion-cat" class="d-none mt-4">
+      <ul class="pagination justify-content-center" id="lista-paginas-cat"></ul>
+    </nav>
   </div>
 </section>
 
@@ -78,7 +87,9 @@
     <div class="row g-4">
       <div class="col-lg-4">
         <div class="footer-brand">SPORT<span>ZONE</span></div>
-        <p class="footer-desc">Equipamiento de alto rendimiento.</p>
+        <p class="footer-desc">
+          Equipamiento de alto rendimiento para todos los deportes y estilos de vida.
+        </p>
       </div>
       <div class="col-6 col-lg-2">
         <div class="footer-col-title">Deportes</div>
@@ -86,10 +97,24 @@
           <li><a href="/pages/categorias/basquetbol.html">Basquetbol</a></li>
           <li><a href="/pages/categorias/futbol.html">Fútbol</a></li>
           <li><a href="/pages/categorias/voleibol.html">Voleibol</a></li>
+          <li><a href="/pages/categorias/tenis.html">Tenis</a></li>
+          <li><a href="/pages/categorias/running.html">Running</a></li>
+          <li><a href="/pages/categorias/lifestyle.html">Lifestyle</a></li>
+          <li><a href="/pages/categorias/training.html">Gym</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-col-title">Cuenta</div>
+        <ul class="footer-list">
+          <li><a href="/pages/login.html">Iniciar sesión</a></li>
+          <li><a href="/pages/login.html">Registrarse</a></li>
+          <li><a href="/pages/cart.html">Mi carrito</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom"><span>&copy; 2025 SportZone.</span></div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 SportZone. Todos los derechos reservados.</span>
+    </div>
   </div>
 </footer>
 
@@ -100,20 +125,29 @@
 <script src="/src/js/catalog.js"></script>
 <script>
   const DEPORTE = 'basquetbol';
-  let categoriaActiva = '';
+  let paginaCat = 1;
+  let catActiva = '';
+
+  function irPaginaCat(n) { paginaCat = n; cargar(); }
 
   async function cargar(cat) {
-    categoriaActiva = cat;
-    const params = { deporte: DEPORTE };
-    if (cat) params.categoria = cat;
+    if (cat !== undefined) { catActiva = cat; paginaCat = 1; }
+    const params = { deporte: DEPORTE, page: paginaCat, limit: 12 };
+    if (catActiva) params.categoria = catActiva;
 
     mostrarLoading('grid-productos');
     try {
-      const lista = await productosAPI.getAll(params);
+      const resp = await productosAPI.getAll(params);
+      const lista = resp.data;
       const el = document.getElementById('grid-productos');
-      document.getElementById('conteo').textContent = lista.length + ' producto' + (lista.length !== 1 ? 's' : '');
-      if (!lista.length) { mostrarVacio('grid-productos', 'Sin productos en esta categoría'); return; }
+      document.getElementById('conteo').textContent = resp.total + ' producto' + (resp.total !== 1 ? 's' : '');
+      if (!lista.length) {
+        mostrarVacio('grid-productos', 'Sin productos en esta categoría');
+        document.getElementById('paginacion-cat').classList.add('d-none');
+        return;
+      }
       el.innerHTML = lista.map(renderProductCard).join('');
+      renderPaginacion('paginacion-cat', resp.totalPages, paginaCat);
     } catch {
       mostrarVacio('grid-productos', 'Error al cargar productos');
     }

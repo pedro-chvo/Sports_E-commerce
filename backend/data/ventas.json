@@ -15,7 +15,26 @@
       }
     ],
     "total": 15998,
-    "estatus": "entregado",
+    "estatus": "cancelado",
     "fecha": "2026-05-04T07:23:41.511Z"
+  },
+  {
+    "id": 2,
+    "usuarioId": 4,
+    "usuarioNombre": "Juan Actualizado",
+    "usuarioEmail": "juan.nuevo@test.com",
+    "productos": [
+      {
+        "productoId": 3,
+        "nombre": "Tacos de Fútbol F50 TUNIT para Terreno Firme",
+        "marca": "Adidas",
+        "precio": 7999,
+        "cantidad": 1,
+        "subtotal": 7999
+      }
+    ],
+    "total": 7999,
+    "estatus": "pendiente",
+    "fecha": "2026-05-07T14:25:48.904Z"
   }
 ]

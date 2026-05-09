@@ -508,7 +508,7 @@
     "deporte": "tenis",
     "categoria": "calzado",
     "marca": "Nike",
-    "color": "blanco/negro/rojo",
+    "color": "blanco/verde/rojo",
     "imagen": "",
     "destacado": true
   },
@@ -521,7 +521,7 @@
     "deporte": "tenis",
     "categoria": "raquetas",
     "marca": "Head",
-    "color": "negro/amarillo",
+    "color": "negro/azul",
     "imagen": ""
   },
   {
@@ -533,7 +533,7 @@
     "deporte": "tenis",
     "categoria": "calzado",
     "marca": "Adidas",
-    "color": "azul/blanco",
+    "color": "negro/blanco",
     "imagen": ""
   },
   {
@@ -557,7 +557,7 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "Nike",
-    "color": "rosa/verde",
+    "color": "blanco/gris",
     "imagen": "",
     "destacado": true
   },
@@ -570,7 +570,7 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "Adidas",
-    "color": "blanco/negro/dorado",
+    "color": "gris/negro/verde",
     "imagen": ""
   },
   {
@@ -582,7 +582,7 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "Brooks",
-    "color": "azul/gris/blanco",
+    "color": "verde/gris/negro",
     "imagen": ""
   },
   {
@@ -606,7 +606,7 @@
     "deporte": "running",
     "categoria": "accesorios",
     "marca": "Garmin",
-    "color": "negro/azul",
+    "color": "negro/gris",
     "imagen": ""
   },
   {
@@ -655,7 +655,7 @@
     "deporte": "lifestyle",
     "categoria": "calzado",
     "marca": "Converse",
-    "color": "negro",
+    "color": "negro/blanco",
     "imagen": ""
   },
   {
@@ -667,7 +667,7 @@
     "deporte": "lifestyle",
     "categoria": "calzado",
     "marca": "New Balance",
-    "color": "gris/azul marino",
+    "color": "gris/azul marino/blanco",
     "imagen": ""
   },
   {
@@ -776,7 +776,7 @@
     "deporte": "tenis",
     "categoria": "accesorios",
     "marca": "Head",
-    "color": "negro/naranja",
+    "color": "Azul marino/Azul",
     "imagen": ""
   },
   {
@@ -800,7 +800,7 @@
     "deporte": "tenis",
     "categoria": "calzado",
     "marca": "Asics",
-    "color": "azul/blanco",
+    "color": "blanco/dorado",
     "imagen": ""
   },
   {
@@ -812,7 +812,7 @@
     "deporte": "running",
     "categoria": "ropa",
     "marca": "Under Armour",
-    "color": "azul/negro",
+    "color": "gris",
     "imagen": ""
   },
   {
@@ -824,7 +824,7 @@
     "deporte": "running",
     "categoria": "ropa",
     "marca": "Nike",
-    "color": "negro/blanco",
+    "color": "negro/gris",
     "imagen": ""
   },
   {
@@ -836,7 +836,7 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "HOKA",
-    "color": "azul/naranja",
+    "color": "gris/negro/blanco",
     "imagen": "",
     "destacado": true
   },
@@ -849,7 +849,7 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "Saucony",
-    "color": "blanco/negro/amarillo",
+    "color": "blanco//amarillo/naranja",
     "imagen": ""
   },
   {
@@ -861,7 +861,7 @@
     "deporte": "running",
     "categoria": "accesorios",
     "marca": "Nathan",
-    "color": "negro/naranja",
+    "color": "azul/gris",
     "imagen": ""
   },
   {
@@ -873,7 +873,7 @@
     "deporte": "running",
     "categoria": "accesorios",
     "marca": "Balega",
-    "color": "blanco/gris",
+    "color": "Azul/gris",
     "imagen": ""
   },
   {
@@ -897,7 +897,7 @@
     "deporte": "lifestyle",
     "categoria": "ropa",
     "marca": "Champion",
-    "color": "gris",
+    "color": "blanco",
     "imagen": ""
   },
   {
@@ -909,7 +909,7 @@
     "deporte": "lifestyle",
     "categoria": "ropa",
     "marca": "Jordan",
-    "color": "negro",
+    "color": "negro/blanco/naranja",
     "imagen": ""
   },
   {
@@ -921,7 +921,7 @@
     "deporte": "lifestyle",
     "categoria": "ropa",
     "marca": "Nike",
-    "color": "gris/negro",
+    "color": "gris/blanco",
     "imagen": ""
   },
   {
@@ -1017,7 +1017,7 @@
     "deporte": "gym",
     "categoria": "accesorios",
     "marca": "Harbinger",
-    "color": "negro",
+    "color": "negro/rojo",
     "imagen": ""
   }
 ]

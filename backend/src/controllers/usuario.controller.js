@@ -4,6 +4,8 @@ const { leer, escribir } = require('../utils/jsonDB');
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
+// Registra un nuevo usuario con rol 'usuario'.
+// Hashea la contraseña con bcrypt antes de guardarla. Responde sin incluir el password.
 const register = async (req, res) => {
     const { nombre, email, password } = req.body;
 
@@ -32,6 +34,8 @@ const register = async (req, res) => {
     res.status(201).json(usuarioSinPassword);
 };
 
+// Autentica a un usuario y genera un JWT con sus datos básicos (id, nombre, email, rol).
+// El token tiene una duración de 8 horas.
 const login = async (req, res) => {
     const { email, password } = req.body;
 
@@ -59,6 +63,8 @@ const login = async (req, res) => {
 
 // ── Admin: gestión de usuarios ────────────────────────────────────────────────
 
+// Crea un usuario desde el panel de administración. Permite asignar rol 'usuario' o 'admin'.
+// Valida que el email no esté repetido y que la contraseña tenga al menos 6 caracteres.
 const crearUsuario = async (req, res) => {
     const { nombre, email, password, rol } = req.body;
 
@@ -93,12 +99,14 @@ const crearUsuario = async (req, res) => {
     res.status(201).json(usuarioSinPassword);
 };
 
+// Retorna la lista de todos los usuarios registrados sin incluir sus contraseñas
 const getUsuarios = (req, res) => {
     const usuarios = leer('usuarios');
     const resultado = usuarios.map(({ password, ...u }) => u);
     res.json(resultado);
 };
 
+// Elimina un usuario por ID. No permite que el admin se elimine a sí mismo.
 const eliminarUsuario = (req, res) => {
     const id = parseInt(req.params.id);
     if (id === req.usuario.id) {
@@ -114,6 +122,8 @@ const eliminarUsuario = (req, res) => {
     res.json({ mensaje: 'Usuario eliminado' });
 };
 
+// Cambia el rol de un usuario entre 'usuario' y 'admin'.
+// No permite que el admin cambie su propio rol.
 const cambiarRol = (req, res) => {
     const id = parseInt(req.params.id);
     if (id === req.usuario.id) {
@@ -138,6 +148,8 @@ const cambiarRol = (req, res) => {
 
 // ── Usuario: perfil ───────────────────────────────────────────────────────────
 
+// Actualiza el nombre o email del usuario autenticado.
+// Valida que el nuevo email no esté en uso por otra cuenta.
 const actualizarPerfil = (req, res) => {
     const { nombre, email } = req.body;
     if (!nombre && !email) {
@@ -160,6 +172,8 @@ const actualizarPerfil = (req, res) => {
     res.json(usuarioSinPassword);
 };
 
+// Cambia la contraseña del usuario autenticado.
+// Requiere la contraseña actual para confirmar identidad antes de actualizar.
 const cambiarPassword = async (req, res) => {
     const { passwordActual, passwordNueva } = req.body;
     if (!passwordActual || !passwordNueva) {

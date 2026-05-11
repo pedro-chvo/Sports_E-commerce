@@ -2,8 +2,12 @@ const { leer, escribir } = require('../utils/jsonDB');
 const multer = require('multer');
 const path   = require('path');
 
+// Directorio donde se guardan las imágenes de productos
 const assetsDir = path.resolve(__dirname, '../../../frontend/src/assets');
 
+// Configuración de multer para subida de imágenes:
+// - Guarda el archivo con su nombre original en la carpeta de assets
+// - Limita el tamaño a 5 MB y acepta solo formatos de imagen comunes
 const upload = multer({
     storage: multer.diskStorage({
         destination: (req, file, cb) => cb(null, assetsDir),
@@ -15,16 +19,22 @@ const upload = multer({
     },
 });
 
+// Responde con la ruta relativa de la imagen recién subida
 const subirImagen = (req, res) => {
     if (!req.file) return res.status(400).json({ mensaje: 'No se recibió ninguna imagen' });
     res.json({ imagen: '/src/assets/' + req.file.originalname });
 };
 
+// Retorna la lista de productos con soporte para filtros y paginación.
+// Filtros opcionales (query params): q (búsqueda de texto), deporte, categoria, marca, destacado.
+// Si se envía el parámetro page, responde con el objeto paginado { data, total, page, limit, totalPages }.
 const getProductos = (req, res) => {
     const productos = leer('productos');
     const { deporte, categoria, marca, destacado, page, limit, q } = req.query;
 
     let resultado = productos;
+
+    // Búsqueda por texto en nombre, marca y descripción
     if (q) {
         const term = q.toLowerCase();
         resultado = resultado.filter(p =>
@@ -33,11 +43,13 @@ const getProductos = (req, res) => {
             (p.descripcion && p.descripcion.toLowerCase().includes(term))
         );
     }
-    if (deporte)    resultado = resultado.filter(p => p.deporte === deporte);
-    if (categoria)  resultado = resultado.filter(p => p.categoria === categoria);
-    if (marca)      resultado = resultado.filter(p => p.marca.toLowerCase() === marca.toLowerCase());
-    if (destacado)  resultado = resultado.filter(p => p.destacado === true);
 
+    if (deporte)   resultado = resultado.filter(p => p.deporte === deporte);
+    if (categoria) resultado = resultado.filter(p => p.categoria === categoria);
+    if (marca)     resultado = resultado.filter(p => p.marca.toLowerCase() === marca.toLowerCase());
+    if (destacado) resultado = resultado.filter(p => p.destacado === true);
+
+    // Paginación: si se envía `page`, se devuelve solo el slice correspondiente
     if (page !== undefined) {
         const pageNum  = Math.max(1, parseInt(page) || 1);
         const limitNum = Math.min(100, Math.max(1, parseInt(limit) || 10));
@@ -50,6 +62,7 @@ const getProductos = (req, res) => {
     res.json(resultado);
 };
 
+// Retorna un producto específico por su ID
 const getProductoById = (req, res) => {
     const productos = leer('productos');
     const producto = productos.find(p => p.id === parseInt(req.params.id));
@@ -57,6 +70,7 @@ const getProductoById = (req, res) => {
     res.json(producto);
 };
 
+// Crea un nuevo producto. Campos obligatorios: nombre, precio, stock, deporte, categoria.
 const crearProducto = (req, res) => {
     const productos = leer('productos');
     const { nombre, descripcion, precio, stock, deporte, categoria, marca, color, imagen } = req.body;
@@ -83,6 +97,8 @@ const crearProducto = (req, res) => {
     res.status(201).json(nuevo);
 };
 
+// Actualiza los campos enviados en el body para el producto indicado por ID.
+// Solo modifica los campos presentes; el ID nunca cambia.
 const actualizarProducto = (req, res) => {
     const productos = leer('productos');
     const index = productos.findIndex(p => p.id === parseInt(req.params.id));
@@ -90,6 +106,7 @@ const actualizarProducto = (req, res) => {
 
     const { nombre, descripcion, precio, stock, deporte, categoria, marca, color, imagen, destacado } = req.body;
     const campos = { nombre, descripcion, precio, stock, deporte, categoria, marca, color, imagen, destacado };
+    // Elimina claves con valor undefined para no sobreescribir campos no enviados
     Object.keys(campos).forEach(k => campos[k] === undefined && delete campos[k]);
 
     productos[index] = { ...productos[index], ...campos, id: productos[index].id };
@@ -97,6 +114,7 @@ const actualizarProducto = (req, res) => {
     res.json(productos[index]);
 };
 
+// Elimina un producto del catálogo por ID
 const eliminarProducto = (req, res) => {
     const productos = leer('productos');
     const index = productos.findIndex(p => p.id === parseInt(req.params.id));

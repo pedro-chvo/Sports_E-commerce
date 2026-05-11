@@ -1,11 +1,15 @@
 /* ── Catalog helpers ── */
 
+// Mapa de iconos por deporte para las cards sin imagen
 const ICONOS = { basquetbol: '🏀', futbol: '⚽', voleibol: '🏐' };
 
+// Retorna el emoji correspondiente al deporte o el ícono de gym por defecto
 function iconoDeporte(deporte) {
   return ICONOS[deporte] || '🏋️';
 }
 
+// Genera el HTML de una card de producto para el catálogo.
+// Incluye imagen o placeholder, datos del producto, botón de carrito y botón de wishlist.
 function renderProductCard(p) {
   const img = p.imagen
     ? `<img src="${p.imagen}" alt="${p.nombre}" class="product-card-img">`
@@ -36,11 +40,13 @@ function renderProductCard(p) {
     </div>`;
 }
 
+// Muestra un spinner de carga en el contenedor dado mientras se obtienen los productos
 function mostrarLoading(id) {
   document.getElementById(id).innerHTML =
     `<div class="loading-box col-12"><div class="spinner"></div>Cargando productos…</div>`;
 }
 
+// Muestra un estado vacío con mensaje en el contenedor dado (sin resultados o error)
 function mostrarVacio(id, msg) {
   document.getElementById(id).innerHTML = `
     <div class="empty-state col-12">
@@ -50,6 +56,8 @@ function mostrarVacio(id, msg) {
     </div>`;
 }
 
+// Carga productos desde la API con los parámetros dados y los renderiza en el contenedor.
+// Si se pasa un límite, recorta la lista antes de renderizar (útil para secciones destacadas).
 async function cargarProductos(containerId, params, limite) {
   mostrarLoading(containerId);
   try {
@@ -68,6 +76,9 @@ async function cargarProductos(containerId, params, limite) {
   }
 }
 
+// Renderiza los controles de paginación en el elemento nav indicado.
+// Muestra botones de página anterior, páginas cercanas a la actual y página siguiente.
+// La función irPaginaCat(n) debe estar definida en cada página que use este componente.
 function renderPaginacion(navId, totalPages, currentPage) {
   const nav = document.getElementById(navId);
   if (!nav) return;

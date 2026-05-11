@@ -4,14 +4,16 @@ const ESTATUSES = ['pendiente', 'procesando', 'enviado', 'entregado', 'cancelado
 
 // ── Usuario: crear venta (checkout) ──────────────────────────────────────────
 
+// Procesa el checkout y crea una nueva venta.
+// Acepta los items del body o, como fallback, toma los del carrito guardado en el servidor.
+// Valida stock, descuenta unidades, guarda la venta y limpia el carrito del usuario.
 const crearVenta = (req, res) => {
-    // Acepta items del body o toma los del carrito guardado en servidor
     let items = req.body.items;
     const direccionEnvio = req.body.direccionEnvio || null;
     const pagoInfo = req.body.pago || null;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
-        // Fallback: usar carrito del servidor
+        // Fallback: usar carrito guardado en el servidor si no vienen items en el body
         const carritos = leer('carritos');
         const carrito = carritos.find(c => c.usuarioId === req.usuario.id);
         if (!carrito || carrito.items.length === 0) {
@@ -24,6 +26,7 @@ const crearVenta = (req, res) => {
     const productosActualizados = [...productos];
     const productosVenta = [];
 
+    // Valida stock de cada item y prepara el snapshot de productos para la venta
     for (const item of items) {
         const idx = productosActualizados.findIndex(p => p.id === parseInt(item.productoId));
         if (idx === -1) {
@@ -65,7 +68,7 @@ const crearVenta = (req, res) => {
     escribir('ventas', ventas);
     escribir('productos', productosActualizados);
 
-    // Limpiar carrito del servidor si existía
+    // Limpia el carrito del servidor una vez confirmada la venta
     const carritos = leer('carritos');
     const idxCarrito = carritos.findIndex(c => c.usuarioId === req.usuario.id);
     if (idxCarrito !== -1) {
@@ -78,21 +81,23 @@ const crearVenta = (req, res) => {
 
 // ── Admin: consultar todas las ventas ─────────────────────────────────────────
 
+// Retorna todas las ventas del sistema, ordenadas de más reciente a más antigua.
+// Filtros opcionales: estatus, usuarioId.
 const getVentas = (req, res) => {
     const ventas = leer('ventas');
     const { estatus, usuarioId } = req.query;
 
     let resultado = ventas;
-    if (estatus) resultado = resultado.filter(v => v.estatus === estatus);
-    if (usuarioId) resultado = resultado.filter(v => v.usuarioId === parseInt(usuarioId));
+    if (estatus)    resultado = resultado.filter(v => v.estatus === estatus);
+    if (usuarioId)  resultado = resultado.filter(v => v.usuarioId === parseInt(usuarioId));
 
-    // Más recientes primero
     resultado = resultado.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
     res.json(resultado);
 };
 
 // ── Usuario: ver su propio historial ─────────────────────────────────────────
 
+// Retorna únicamente las ventas del usuario autenticado, ordenadas de más reciente a más antigua.
 const getMisVentas = (req, res) => {
     const ventas = leer('ventas');
     const misVentas = ventas
@@ -103,6 +108,8 @@ const getMisVentas = (req, res) => {
 
 // ── Restaurar stock al cancelar ───────────────────────────────────────────────
 
+// Devuelve el stock de cada producto al nivel previo a la venta.
+// Se llama internamente al cancelar una venta para que los productos vuelvan a estar disponibles.
 const restaurarStock = (venta) => {
     const productos = leer('productos');
     venta.productos.forEach(item => {
@@ -114,6 +121,7 @@ const restaurarStock = (venta) => {
 
 // ── Admin: cambiar estatus de una venta ───────────────────────────────────────
 
+// Actualiza el estatus de una venta. Si el nuevo estatus es 'cancelado', restaura el stock.
 const cambiarEstatus = (req, res) => {
     const { estatus } = req.body;
     if (!estatus || !ESTATUSES.includes(estatus)) {
@@ -138,6 +146,8 @@ const cambiarEstatus = (req, res) => {
 
 // ── Usuario: cancelar su propio pedido ───────────────────────────────────────
 
+// Permite al usuario cancelar su pedido si aún está en estatus 'pendiente'.
+// Restaura el stock de los productos al cancelar.
 const cancelarPedido = (req, res) => {
     const ventas = leer('ventas');
     const index = ventas.findIndex(v => v.id === parseInt(req.params.id));
@@ -159,12 +169,13 @@ const cancelarPedido = (req, res) => {
 
 // ── Admin/Usuario: detalle de una venta ──────────────────────────────────────
 
+// Retorna el detalle completo de una venta por ID.
+// Solo el dueño de la venta o un administrador puede consultarla.
 const getVentaById = (req, res) => {
     const ventas = leer('ventas');
     const venta = ventas.find(v => v.id === parseInt(req.params.id));
     if (!venta) return res.status(404).json({ mensaje: 'Venta no encontrada' });
 
-    // Solo el dueño o un admin puede ver la venta
     if (venta.usuarioId !== req.usuario.id && req.usuario.rol !== 'admin') {
         return res.status(403).json({ mensaje: 'No tienes permiso para ver esta venta' });
     }
@@ -173,22 +184,29 @@ const getVentaById = (req, res) => {
 
 // ── Admin: métricas del dashboard ─────────────────────────────────────────────
 
+// Calcula y retorna estadísticas globales para el panel de administración:
+// ingresos totales, total de ventas, ventas por estatus,
+// los 7 productos más vendidos e ingresos desglosados por deporte.
 const getMetricas = (req, res) => {
-    const ventas   = leer('ventas');
+    const ventas    = leer('ventas');
     const productos = leer('productos');
 
+    // Mapa auxiliar id → deporte para enriquecer los items de venta
     const deporteMap = {};
     productos.forEach(p => { deporteMap[p.id] = p.deporte; });
 
+    // Excluye ventas canceladas del cálculo de ingresos
     const ventasActivas = ventas.filter(v => v.estatus !== 'cancelado');
 
     const ingresosTotales = parseFloat(
         ventasActivas.reduce((s, v) => s + v.total, 0).toFixed(2)
     );
 
+    // Conteo de ventas agrupadas por cada estatus posible
     const ventasPorEstatus = { pendiente: 0, procesando: 0, enviado: 0, entregado: 0, cancelado: 0 };
     ventas.forEach(v => { ventasPorEstatus[v.estatus] = (ventasPorEstatus[v.estatus] || 0) + 1; });
 
+    // Agrupación de cantidad e ingresos por producto para el ranking
     const productosMap = {};
     ventasActivas.forEach(v => {
         v.productos.forEach(p => {
@@ -203,6 +221,7 @@ const getMetricas = (req, res) => {
         .sort((a, b) => b.cantidad - a.cantidad)
         .slice(0, 7);
 
+    // Ingresos agrupados por deporte usando el mapa auxiliar
     const ingresosPorDeporte = {};
     ventasActivas.forEach(v => {
         v.productos.forEach(p => {

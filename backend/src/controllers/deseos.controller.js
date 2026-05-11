@@ -1,5 +1,6 @@
 const { leer, escribir } = require('../utils/jsonDB');
 
+// Busca la lista de deseos del usuario. Si no existe, crea una vacía y la agrega.
 const obtenerDeseosUsuario = (listaDeseos, usuarioId) => {
     let deseos = listaDeseos.find(d => d.usuarioId === usuarioId);
     if (!deseos) {
@@ -9,14 +10,16 @@ const obtenerDeseosUsuario = (listaDeseos, usuarioId) => {
     return deseos;
 };
 
+// Retorna la lista de deseos del usuario autenticado con los datos completos de cada producto
 const getDeseos = (req, res) => {
     const listaDeseos = leer('deseos');
     const productos = leer('productos');
     const deseos = obtenerDeseosUsuario(listaDeseos, req.usuario.id);
 
+    // Enriquece cada ID guardado con la información actual del producto
     const productosDetallados = deseos.productos.map(productoId => {
         const producto = productos.find(p => p.id === productoId);
-        if (!producto) return null;
+        if (!producto) return null; // Producto eliminado del catálogo
         return {
             id: producto.id,
             nombre: producto.nombre,
@@ -32,6 +35,8 @@ const getDeseos = (req, res) => {
     res.json({ productos: productosDetallados });
 };
 
+// Agrega un producto a la lista de deseos del usuario.
+// No permite duplicados: retorna error 400 si ya está en la lista.
 const agregarDeseo = (req, res) => {
     const { productoId } = req.body;
     if (!productoId) return res.status(400).json({ mensaje: 'productoId es obligatorio' });
@@ -52,6 +57,7 @@ const agregarDeseo = (req, res) => {
     res.status(201).json({ mensaje: 'Producto agregado a la lista de deseos', productos: deseos.productos });
 };
 
+// Elimina un producto específico de la lista de deseos del usuario
 const eliminarDeseo = (req, res) => {
     const productoId = parseInt(req.params.productoId);
 

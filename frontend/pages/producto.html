@@ -18,7 +18,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto ms-4 gap-1">
+      <ul class="navbar-nav ms-2 gap-1">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             Deportes
@@ -35,7 +35,19 @@
           </ul>
         </li>
       </ul>
-      <div class="d-flex align-items-center gap-3">
+      <div class="nav-search-center">
+        <form class="nav-search-form" action="/pages/busqueda.html" method="get">
+          <div class="nav-search-wrapper">
+            <input type="text" name="q" class="nav-search-input" placeholder="Buscar productos…" autocomplete="off">
+            <button type="submit" class="nav-search-btn"><i class="bi bi-search"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <a href="/pages/wishlist.html" class="nav-cart-link">
+          <i class="bi bi-heart"></i>
+          <span class="cart-badge wishlist-count" style="display:none">0</span>
+        </a>
         <a href="/pages/cart.html" class="nav-cart-link">
           <i class="bi bi-bag"></i>
           <span class="cart-badge cart-count" style="display:none">0</span>
@@ -90,9 +102,14 @@
 
           <p class="product-detail-desc mb-4" id="producto-desc"></p>
 
-          <button class="btn-add-cart" style="max-width:280px" id="btn-carrito">
-            Agregar al carrito
-          </button>
+          <div class="d-flex gap-2" style="max-width:340px">
+            <button class="btn-add-cart flex-grow-1" id="btn-carrito">
+              Agregar al carrito
+            </button>
+            <button class="btn-wishlist" id="btn-deseo" title="Lista de deseos" style="padding:0 1rem;font-size:1.2rem">
+              <i class="bi bi-heart"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -207,6 +224,13 @@
         } else {
           btn.onclick = () => agregarAlCarrito(p.id);
         }
+
+        const btnDeseo = document.getElementById('btn-deseo');
+        if (enListaDeseos(p.id)) {
+          btnDeseo.classList.add('activo');
+          btnDeseo.querySelector('i').className = 'bi bi-heart-fill';
+        }
+        btnDeseo.onclick = () => toggleDeseo(p.id);
 
         document.getElementById('estado').style.display  = 'none';
         document.getElementById('detalle').style.display = 'block';

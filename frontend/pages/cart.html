@@ -18,12 +18,36 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto ms-4 gap-1">
-        <li class="nav-item"><a class="nav-link" href="/pages/categorias/basquetbol.html">Basquetbol</a></li>
-        <li class="nav-item"><a class="nav-link" href="/pages/categorias/futbol.html">Fútbol</a></li>
-        <li class="nav-item"><a class="nav-link" href="/pages/categorias/voleibol.html">Voleibol</a></li>
+      <ul class="navbar-nav ms-2 gap-1">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Deportes
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/pages/categorias/basquetbol.html">🏀 Basquetbol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/futbol.html">⚽ Fútbol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/voleibol.html">🏐 Voleibol</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/pages/categorias/tenis.html">🎾 Tenis</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/running.html">🏃 Running</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/lifestyle.html">✨ Lifestyle</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/training.html">💪 Gym</a></li>
+          </ul>
+        </li>
       </ul>
-      <div class="d-flex align-items-center gap-3">
+      <div class="nav-search-center">
+        <form class="nav-search-form" action="/pages/busqueda.html" method="get">
+          <div class="nav-search-wrapper">
+            <input type="text" name="q" class="nav-search-input" placeholder="Buscar productos…" autocomplete="off">
+            <button type="submit" class="nav-search-btn"><i class="bi bi-search"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <a href="/pages/wishlist.html" class="nav-cart-link">
+          <i class="bi bi-heart"></i>
+          <span class="cart-badge wishlist-count" style="display:none">0</span>
+        </a>
         <a href="/pages/cart.html" class="nav-cart-link">
           <i class="bi bi-bag"></i>
           <span class="cart-badge cart-count" style="display:none">0</span>
@@ -87,7 +111,7 @@
             <span id="total">$0</span>
           </div>
 
-          <button class="btn btn-primary w-100 mt-4" onclick="checkout()"
+          <button class="btn btn-primary w-100 mt-4" onclick="irAlCheckout()"
                   style="padding:.75rem;font-size:.85rem;">
             Finalizar compra
           </button>
@@ -150,10 +174,10 @@
 <script src="/src/js/api.js"></script>
 <script src="/src/js/cart.js"></script>
 <script>
-  function renderCarrito() {
+  function renderDesdeLocal() {
     const items = obtenerCarrito();
-    const vacio       = document.getElementById('carrito-vacio');
-    const contenido   = document.getElementById('carrito-contenido');
+    const vacio        = document.getElementById('carrito-vacio');
+    const contenido    = document.getElementById('carrito-contenido');
     const confirmacion = document.getElementById('carrito-confirmacion');
 
     if (!items.length) {
@@ -161,9 +185,9 @@
       contenido.style.display = 'none';
       return;
     }
-    vacio.style.display       = 'none';
+    vacio.style.display        = 'none';
     confirmacion.style.display = 'none';
-    contenido.style.display   = 'block';
+    contenido.style.display    = 'block';
 
     const lista = document.getElementById('lista-items');
     lista.innerHTML = items.map(item => {
@@ -187,47 +211,68 @@
         </div>`;
     }).join('');
 
-    actualizarResumen(items);
-  }
-
-  function actualizarResumen(items) {
     const sub = items.reduce((s, i) => s + i.precio * i.cantidad, 0);
     document.getElementById('subtotal').textContent = '$' + sub.toLocaleString('es-MX');
     document.getElementById('total').textContent    = '$' + sub.toLocaleString('es-MX');
   }
 
-  function cambiarCantidad(id, delta) {
+  async function renderCarrito() {
+    if (estaLogueado()) {
+      try {
+        const data = await carritoAPI.get();
+        const items = (data.items || []).map(i => ({
+          id: i.productoId, nombre: i.nombre, precio: i.precio,
+          imagen: i.imagen, marca: i.marca, deporte: i.deporte, cantidad: i.cantidad
+        }));
+        guardarCarrito(items);
+      } catch(e) { /* usa localStorage como fallback */ }
+    }
+    renderDesdeLocal();
+  }
+
+  async function cambiarCantidad(id, delta) {
     const c = obtenerCarrito();
     const idx = c.findIndex(i => i.id === id);
     if (idx < 0) return;
+    const cantidadAnterior = c[idx].cantidad;
     c[idx].cantidad += delta;
-    if (c[idx].cantidad <= 0) c.splice(idx, 1);
-    guardarCarrito(c);
-    renderCarrito();
+
+    if (c[idx].cantidad <= 0) {
+      c.splice(idx, 1);
+      guardarCarrito(c);
+      renderDesdeLocal();
+      carritoAPI.eliminar(id).catch(() => {});
+    } else if (delta > 0) {
+      guardarCarrito(c);
+      renderDesdeLocal();
+      try {
+        await carritoAPI.actualizar(id, c[idx].cantidad);
+      } catch(e) {
+        c[idx].cantidad = cantidadAnterior;
+        guardarCarrito(c);
+        renderDesdeLocal();
+        mostrarToast(e.message || 'Stock insuficiente.', 'error');
+      }
+    } else {
+      guardarCarrito(c);
+      renderDesdeLocal();
+      carritoAPI.actualizar(id, c[idx].cantidad).catch(() => {});
+    }
   }
 
   function eliminarItem(id) {
-    const c = obtenerCarrito().filter(i => i.id !== id);
-    guardarCarrito(c);
-    renderCarrito();
+    guardarCarrito(obtenerCarrito().filter(i => i.id !== id));
+    carritoAPI.eliminar(id).catch(() => {});
+    renderDesdeLocal();
   }
 
-  async function checkout() {
+  function irAlCheckout() {
     if (!estaLogueado()) {
       mostrarToast('Debes iniciar sesión para finalizar tu compra.', 'error');
       setTimeout(() => { window.location.href = '/pages/login.html'; }, 1600);
       return;
     }
-    const items = obtenerCarrito().map(i => ({ productoId: i.id, cantidad: i.cantidad }));
-    try {
-      await ventasAPI.crear(items);
-      guardarCarrito([]);
-      document.getElementById('carrito-contenido').style.display    = 'none';
-      document.getElementById('carrito-vacio').style.display        = 'none';
-      document.getElementById('carrito-confirmacion').style.display = 'block';
-    } catch (e) {
-      mostrarToast(e.message || 'Error al procesar la compra.', 'error');
-    }
+    window.location.href = '/pages/checkout.html';
   }
 
   document.addEventListener('DOMContentLoaded', renderCarrito);

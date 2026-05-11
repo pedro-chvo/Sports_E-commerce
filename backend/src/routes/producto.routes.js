@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const { getProductos, getProductoById, crearProducto, actualizarProducto, eliminarProducto } = require('../controllers/producto.controller');
+const { getProductos, getProductoById, crearProducto, actualizarProducto, eliminarProducto, subirImagen, upload } = require('../controllers/producto.controller');
 const { verificarToken, soloAdmin } = require('../middlewares/auth.middleware');
 
+router.post('/imagen', verificarToken, soloAdmin, upload.single('imagen'), subirImagen);
 router.get('/', getProductos);
 router.get('/:id', getProductoById);
 router.post('/', verificarToken, soloAdmin, crearProducto);

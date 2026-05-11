@@ -22,7 +22,7 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto ms-4 gap-1">
+      <ul class="navbar-nav ms-2 gap-1">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
             Deportes
@@ -39,7 +39,20 @@
         </li>
       </ul>
 
-      <div class="d-flex align-items-center gap-3">
+      <div class="nav-search-center">
+        <form class="nav-search-form" action="/pages/busqueda.html" method="get">
+          <div class="nav-search-wrapper">
+            <input type="text" name="q" class="nav-search-input" placeholder="Buscar productos…" autocomplete="off">
+            <button type="submit" class="nav-search-btn"><i class="bi bi-search"></i></button>
+          </div>
+        </form>
+      </div>
+
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <a href="/pages/wishlist.html" class="nav-cart-link">
+          <i class="bi bi-heart"></i>
+          <span class="cart-badge wishlist-count" style="display:none">0</span>
+        </a>
         <a href="/pages/cart.html" class="nav-cart-link">
           <i class="bi bi-bag"></i>
           <span class="cart-badge cart-count" style="display:none">0</span>
@@ -75,89 +88,108 @@
     <div class="section-header">
       <h2 class="section-title">Deportes</h2>
     </div>
-    <!-- Fila principal: 3 deportes grandes -->
-    <div class="row g-3 mb-3">
-      <div class="col-md-4">
-        <a href="/pages/categorias/basquetbol.html" class="sport-card sport-bg-basket">
-          <div class="sport-card-icon">🏀</div>
-          <div class="sport-card-overlay"></div>
-          <div class="sport-card-content">
-            <div class="sport-card-label">Categoría</div>
-            <div class="sport-card-title">Basquetbol</div>
-            <span class="sport-card-cta">Explorar →</span>
+
+    <div class="sports-carousel-wrapper">
+      <button class="sports-carousel-btn sports-carousel-prev" aria-label="Anterior" disabled>
+        <i class="bi bi-chevron-left"></i>
+      </button>
+
+      <div class="sports-carousel-outer">
+        <div class="sports-carousel-track" id="sportsTrack">
+
+          <div class="sports-carousel-item">
+            <a href="/pages/categorias/basquetbol.html" class="sport-card sport-bg-basket">
+              <div class="sport-card-icon">🏀</div>
+              <div class="sport-card-overlay"></div>
+              <div class="sport-card-content">
+                <div class="sport-card-label">Categoría</div>
+                <div class="sport-card-title">Basquetbol</div>
+                <span class="sport-card-cta">Explorar →</span>
+              </div>
+            </a>
           </div>
-        </a>
-      </div>
-      <div class="col-md-4">
-        <a href="/pages/categorias/futbol.html" class="sport-card sport-bg-futbol">
-          <div class="sport-card-icon">⚽</div>
-          <div class="sport-card-overlay"></div>
-          <div class="sport-card-content">
-            <div class="sport-card-label">Categoría</div>
-            <div class="sport-card-title">Fútbol</div>
-            <span class="sport-card-cta">Explorar →</span>
+
+          <div class="sports-carousel-item">
+            <a href="/pages/categorias/futbol.html" class="sport-card sport-bg-futbol">
+              <div class="sport-card-icon">⚽</div>
+              <div class="sport-card-overlay"></div>
+              <div class="sport-card-content">
+                <div class="sport-card-label">Categoría</div>
+                <div class="sport-card-title">Fútbol</div>
+                <span class="sport-card-cta">Explorar →</span>
+              </div>
+            </a>
           </div>
-        </a>
-      </div>
-      <div class="col-md-4">
-        <a href="/pages/categorias/voleibol.html" class="sport-card sport-bg-voley">
-          <div class="sport-card-icon">🏐</div>
-          <div class="sport-card-overlay"></div>
-          <div class="sport-card-content">
-            <div class="sport-card-label">Categoría</div>
-            <div class="sport-card-title">Voleibol</div>
-            <span class="sport-card-cta">Explorar →</span>
+
+          <div class="sports-carousel-item">
+            <a href="/pages/categorias/voleibol.html" class="sport-card sport-bg-voley">
+              <div class="sport-card-icon">🏐</div>
+              <div class="sport-card-overlay"></div>
+              <div class="sport-card-content">
+                <div class="sport-card-label">Categoría</div>
+                <div class="sport-card-title">Voleibol</div>
+                <span class="sport-card-cta">Explorar →</span>
+              </div>
+            </a>
           </div>
-        </a>
+
+          <div class="sports-carousel-item">
+            <a href="/pages/categorias/tenis.html" class="sport-card sport-bg-tenis">
+              <div class="sport-card-icon">🎾</div>
+              <div class="sport-card-overlay"></div>
+              <div class="sport-card-content">
+                <div class="sport-card-label">Categoría</div>
+                <div class="sport-card-title">Tenis</div>
+                <span class="sport-card-cta">Explorar →</span>
+              </div>
+            </a>
+          </div>
+
+          <div class="sports-carousel-item">
+            <a href="/pages/categorias/running.html" class="sport-card sport-bg-running">
+              <div class="sport-card-icon">🏃</div>
+              <div class="sport-card-overlay"></div>
+              <div class="sport-card-content">
+                <div class="sport-card-label">Categoría</div>
+                <div class="sport-card-title">Running</div>
+                <span class="sport-card-cta">Explorar →</span>
+              </div>
+            </a>
+          </div>
+
+          <div class="sports-carousel-item">
+            <a href="/pages/categorias/lifestyle.html" class="sport-card sport-bg-lifestyle">
+              <div class="sport-card-icon">✨</div>
+              <div class="sport-card-overlay"></div>
+              <div class="sport-card-content">
+                <div class="sport-card-label">Categoría</div>
+                <div class="sport-card-title">Lifestyle</div>
+                <span class="sport-card-cta">Explorar →</span>
+              </div>
+            </a>
+          </div>
+
+          <div class="sports-carousel-item">
+            <a href="/pages/categorias/training.html" class="sport-card sport-bg-gym">
+              <div class="sport-card-icon">💪</div>
+              <div class="sport-card-overlay"></div>
+              <div class="sport-card-content">
+                <div class="sport-card-label">Categoría</div>
+                <div class="sport-card-title">Gym</div>
+                <span class="sport-card-cta">Explorar →</span>
+              </div>
+            </a>
+          </div>
+
+        </div>
       </div>
+
+      <button class="sports-carousel-btn sports-carousel-next" aria-label="Siguiente">
+        <i class="bi bi-chevron-right"></i>
+      </button>
     </div>
-    <!-- Fila secundaria: 4 deportes más pequeños -->
-    <div class="row g-3">
-      <div class="col-6 col-md-3">
-        <a href="/pages/categorias/tenis.html" class="sport-card sport-bg-tenis" style="min-height:140px">
-          <div class="sport-card-icon" style="font-size:2rem">🎾</div>
-          <div class="sport-card-overlay"></div>
-          <div class="sport-card-content">
-            <div class="sport-card-label">Categoría</div>
-            <div class="sport-card-title">Tenis</div>
-            <span class="sport-card-cta">Explorar →</span>
-          </div>
-        </a>
-      </div>
-      <div class="col-6 col-md-3">
-        <a href="/pages/categorias/running.html" class="sport-card sport-bg-running" style="min-height:140px">
-          <div class="sport-card-icon" style="font-size:2rem">🏃</div>
-          <div class="sport-card-overlay"></div>
-          <div class="sport-card-content">
-            <div class="sport-card-label">Categoría</div>
-            <div class="sport-card-title">Running</div>
-            <span class="sport-card-cta">Explorar →</span>
-          </div>
-        </a>
-      </div>
-      <div class="col-6 col-md-3">
-        <a href="/pages/categorias/lifestyle.html" class="sport-card sport-bg-lifestyle" style="min-height:140px">
-          <div class="sport-card-icon" style="font-size:2rem">✨</div>
-          <div class="sport-card-overlay"></div>
-          <div class="sport-card-content">
-            <div class="sport-card-label">Categoría</div>
-            <div class="sport-card-title">Lifestyle</div>
-            <span class="sport-card-cta">Explorar →</span>
-          </div>
-        </a>
-      </div>
-      <div class="col-6 col-md-3">
-        <a href="/pages/categorias/training.html" class="sport-card sport-bg-gym" style="min-height:140px">
-          <div class="sport-card-icon" style="font-size:2rem">💪</div>
-          <div class="sport-card-overlay"></div>
-          <div class="sport-card-content">
-            <div class="sport-card-label">Categoría</div>
-            <div class="sport-card-title">Gym</div>
-            <span class="sport-card-cta">Explorar →</span>
-          </div>
-        </a>
-      </div>
-    </div>
+
+    <div class="sports-carousel-dots" id="sportsDots"></div>
   </div>
 </section>
 
@@ -176,40 +208,6 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════════
-     BANNERS PROMO
-═══════════════════════════════ -->
-<section class="py-5">
-  <div class="container">
-    <div class="promo-row">
-
-      <div class="promo-banner promo-bg-calzado"
-           onclick="window.location.href='/pages/categorias/running.html'">
-        <div class="promo-icon">👟</div>
-        <div class="promo-banner-inner">
-          <div class="promo-tag">Nueva colección</div>
-          <div class="promo-title">Calzado<br>deportivo</div>
-          <a href="/pages/categorias/running.html" class="btn btn-outline-light btn-sm">
-            Ver calzado
-          </a>
-        </div>
-      </div>
-
-      <div class="promo-banner promo-bg-ropa"
-           onclick="window.location.href='/pages/categorias/lifestyle.html'">
-        <div class="promo-icon">👕</div>
-        <div class="promo-banner-inner">
-          <div class="promo-tag">Streetwear & Sport</div>
-          <div class="promo-title">Ropa de<br>rendimiento</div>
-          <a href="/pages/categorias/lifestyle.html" class="btn btn-outline-light btn-sm">
-            Ver lifestyle
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
 
 <!-- ═══════════════════════════════
      FOOTER
@@ -260,6 +258,55 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     cargarProductos('grid-trending', { destacado: 'true' }, 4);
+
+    // Sports carousel
+    (function() {
+      const track   = document.getElementById('sportsTrack');
+      const items   = Array.from(track.querySelectorAll('.sports-carousel-item'));
+      const dotsEl  = document.getElementById('sportsDots');
+      const prevBtn = document.querySelector('.sports-carousel-prev');
+      const nextBtn = document.querySelector('.sports-carousel-next');
+      let cur = 0;
+
+      function visible() {
+        return window.innerWidth < 576 ? 1 : window.innerWidth < 992 ? 2 : 3;
+      }
+      function maxIdx() { return Math.max(0, items.length - visible()); }
+
+      function slide() {
+        const gap = 16;
+        const w   = items[0].getBoundingClientRect().width;
+        track.style.transform = `translateX(-${cur * (w + gap)}px)`;
+        prevBtn.disabled = cur <= 0;
+        nextBtn.disabled = cur >= maxIdx();
+        document.querySelectorAll('.sports-dot').forEach((d, i) =>
+          d.classList.toggle('active', i === cur)
+        );
+      }
+
+      function buildDots() {
+        dotsEl.innerHTML = '';
+        for (let i = 0; i <= maxIdx(); i++) {
+          const b = document.createElement('button');
+          b.className = 'sports-dot' + (i === 0 ? ' active' : '');
+          b.setAttribute('aria-label', 'Slide ' + (i + 1));
+          b.onclick = () => { cur = i; slide(); };
+          dotsEl.appendChild(b);
+        }
+      }
+
+      prevBtn.addEventListener('click', () => { if (cur > 0) { cur--; slide(); } });
+      nextBtn.addEventListener('click', () => { if (cur < maxIdx()) { cur++; slide(); } });
+
+      let rt;
+      window.addEventListener('resize', () => {
+        clearTimeout(rt);
+        rt = setTimeout(() => { cur = Math.min(cur, maxIdx()); buildDots(); slide(); }, 120);
+      });
+
+      buildDots();
+      slide();
+    })();
   });
 </script>
 

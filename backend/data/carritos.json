@@ -2,5 +2,18 @@
   {
     "usuarioId": 4,
     "items": []
+  },
+  {
+    "usuarioId": 3,
+    "items": [
+      {
+        "productoId": 5,
+        "cantidad": 1
+      },
+      {
+        "productoId": 3,
+        "cantidad": 1
+      }
+    ]
   }
 ]

@@ -26,5 +26,12 @@
     "email": "admin2@sports.com",
     "password": "$2b$10$jDAYGJ.GjIfipTRhPdsSrOXEDSfj4uecW1yDXRN9UATpRC.WeiheK",
     "rol": "usuario"
+  },
+  {
+    "id": 6,
+    "nombre": "Ejemplo 2",
+    "email": "ejemplo2@test.com",
+    "password": "$2b$10$xCK8ddmLABCL2uh4b397he4sn8Tgs5Ql3Ol0jx.PLn2VYfiVw3QsS",
+    "rol": "usuario"
   }
 ]

@@ -8,6 +8,8 @@ const login = async (email, password) => {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.mensaje);
+    localStorage.removeItem('sportzone_cart');
+    localStorage.removeItem('sportzone_wishlist');
     localStorage.setItem('token', data.token);
     localStorage.setItem('usuario', JSON.stringify(data.usuario));
     return data;

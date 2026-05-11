@@ -4,10 +4,11 @@ const path = require('path');
 const app = express();
 
 const productoRoutes = require('./src/routes/producto.routes');
-const authRoutes = require('./src/routes/user.routes');
+const authRoutes = require('./src/routes/auth.routes');
 const usuarioRoutes = require('./src/routes/usuario.routes');
 const carritoRoutes = require('./src/routes/carrito.routes');
 const ventaRoutes = require('./src/routes/venta.routes');
+const deseosRoutes = require('./src/routes/deseos.routes');
 
 const PORT = process.env.PORT || 3000;
 
@@ -21,6 +22,7 @@ app.use('/api/productos', productoRoutes);
 app.use('/api/usuarios', usuarioRoutes);
 app.use('/api/carrito', carritoRoutes);
 app.use('/api/ventas', ventaRoutes);
+app.use('/api/deseos', deseosRoutes);
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en http://localhost:${PORT}`);

@@ -507,8 +507,6 @@ h1,h2,h3,h4,h5,h6 {
   letter-spacing: 0.03em;
   margin-bottom: 1rem;
 }
-.promo-bg-calzado { background: linear-gradient(140deg, #1a0500, #3d1200); }
-.promo-bg-ropa    { background: linear-gradient(140deg, #050010, #140030); }
 .promo-icon {
   position: absolute;
   right: 2rem; top: 50%;

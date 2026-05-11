@@ -19,5 +19,19 @@
     "email": "juan.nuevo@test.com",
     "password": "$2b$10$5qeYlxBMixCKj2k9R2EE1OJ00ZSs3jMpwhOKG5UQ4U62bkw2zKsV2",
     "rol": "usuario"
+  },
+  {
+    "id": 5,
+    "nombre": "Admin2 ",
+    "email": "admin2@sports.com",
+    "password": "$2b$10$jDAYGJ.GjIfipTRhPdsSrOXEDSfj4uecW1yDXRN9UATpRC.WeiheK",
+    "rol": "usuario"
+  },
+  {
+    "id": 6,
+    "nombre": "Ejemplo 2",
+    "email": "ejemplo2@test.com",
+    "password": "$2b$10$xCK8ddmLABCL2uh4b397he4sn8Tgs5Ql3Ol0jx.PLn2VYfiVw3QsS",
+    "rol": "usuario"
   }
 ]

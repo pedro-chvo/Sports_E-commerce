@@ -3,690 +3,732 @@
     "_postman_id": "17e430f4-ae53-4a4c-ae3d-040e40355814",
     "name": "Proyecto_DAWS",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "54151213",
-    "_collection_link": "https://go.postman.co/collection/54151213-17e430f4-ae53-4a4c-ae3d-040e40355814?source=collection_link"
+    "_exporter_id": "54151213"
   },
   "item": [
     {
-      "name": "conseguir token usuario",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"email\": \"pedrort872@gmail.com\",\r\n  \"password\": \"pedro123\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Pedro Chávez\",\n  \"email\": \"pedrort872@gmail.com\",\n  \"password\": \"pedro123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "auth", "register"]
             }
-          }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "http://localhost:3000/api/auth/login",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "auth",
-            "login"
-          ]
+        {
+          "name": "Login (usuario)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"pedrort872@gmail.com\",\n  \"password\": \"pedro123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login (admin)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@sports.com\",\n  \"password\": \"admin123\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "auth", "login"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "get usuarios",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg",
-              "type": "string"
+      "name": "Usuarios",
+      "item": [
+        {
+          "name": "Get todos los usuarios (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/usuarios",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "usuarios"]
             }
-          ]
+          },
+          "response": []
         },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/usuarios",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "usuarios"
-          ]
+        {
+          "name": "Crear usuario (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Nuevo Usuario\",\n  \"email\": \"nuevo@test.com\",\n  \"password\": \"123456\",\n  \"rol\": \"usuario\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/usuarios",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "usuarios"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cambiar rol (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"rol\": \"admin\" }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/usuarios/3/rol",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "usuarios", "3", "rol"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar usuario (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/usuarios/5",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "usuarios", "5"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar perfil (datos)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"nombre\": \"Pedro Actualizado\", \"email\": \"pedro.nuevo@test.com\" }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/usuarios/perfil/datos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "usuarios", "perfil", "datos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cambiar contraseña",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"passwordActual\": \"pedro123\", \"passwordNueva\": \"nuevapass123\" }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/usuarios/perfil/password",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "usuarios", "perfil", "password"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "crear usurio",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"nombre\": \"Pedro Chávez\",\r\n  \"email\": \"pedrort872@gmail.com\",\r\n  \"password\": \"pedro123\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+      "name": "Productos",
+      "item": [
+        {
+          "name": "Get todos los productos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/productos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos"]
             }
-          }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "http://localhost:3000/api/auth/register",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "auth",
-            "register"
-          ]
+        {
+          "name": "Get productos por deporte",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/productos?deporte=futbol",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos"],
+              "query": [{ "key": "deporte", "value": "futbol" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get productos por categoria",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/productos?categoria=calzado",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos"],
+              "query": [{ "key": "categoria", "value": "calzado" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get productos por marca",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/productos?marca=nike",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos"],
+              "query": [{ "key": "marca", "value": "nike" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get productos destacados",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/productos?destacado=true",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos"],
+              "query": [{ "key": "destacado", "value": "true" }]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get detalle de un producto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/productos/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Crear producto (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Balón de prueba\",\n  \"precio\": 299.99,\n  \"stock\": 10,\n  \"deporte\": \"futbol\",\n  \"categoria\": \"balones\",\n  \"marca\": \"Adidas\",\n  \"descripcion\": \"Balón oficial para pruebas\",\n  \"destacado\": false\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/productos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar producto (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Balón actualizado\",\n  \"precio\": 349.99,\n  \"stock\": 15,\n  \"destacado\": true\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/productos/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar producto (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/productos/85",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos", "85"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Subir imagen de producto (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "imagen",
+                  "type": "file",
+                  "src": ""
+                }
+              ]
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/productos/imagen",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "productos", "imagen"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "cambiar rol",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg",
-              "type": "string"
+      "name": "Carrito",
+      "item": [
+        {
+          "name": "Ver carrito",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/carrito",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "carrito"]
             }
-          ]
+          },
+          "response": []
         },
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{ \"rol\": \"admin\" }\r\n",
-          "options": {
-            "raw": {
-              "language": "json"
+        {
+          "name": "Agregar producto al carrito",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"productoId\": 1, \"cantidad\": 2 }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/carrito",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "carrito"]
             }
-          }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "http://localhost:3000/api/usuarios/3/rol",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "usuarios",
-            "3",
-            "rol"
-          ],
-          "query": [
-            {
-              "key": "",
-              "value": null,
-              "type": "text",
-              "disabled": true
+        {
+          "name": "Actualizar cantidad en carrito",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"cantidad\": 3 }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/carrito/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "carrito", "1"]
             }
-          ]
+          },
+          "response": []
+        },
+        {
+          "name": "Quitar producto del carrito",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/carrito/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "carrito", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Vaciar carrito completo",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/carrito/vaciar",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "carrito", "vaciar"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "eliminar usuario",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywibm9tYnJlIjoiUGVkcm8gQ2jDoXZleiIsImVtYWlsIjoicGVkcm9ydDg3MkBnbWFpbC5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MzAyMSwiZXhwIjoxNzc3OTExODIxfQ.eMeVudjAuyVzZdLe-ntrXXEr3sJ9syOwb6MChZ3HL10",
-              "type": "string"
+      "name": "Ventas",
+      "item": [
+        {
+          "name": "Crear venta (checkout)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productos\": [\n    { \"productoId\": 1, \"cantidad\": 2 },\n    { \"productoId\": 3, \"cantidad\": 1 }\n  ],\n  \"direccion\": \"Av. Siempre Viva 123, CDMX\"\n}",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/ventas",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "ventas"]
             }
-          ]
+          },
+          "response": []
         },
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/usuarios/2",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "usuarios",
-            "2"
-          ]
+        {
+          "name": "Mis pedidos (usuario)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/ventas/mias",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "ventas", "mias"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Detalle de una venta",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/ventas/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "ventas", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cancelar pedido",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/ventas/1/cancelar",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "ventas", "1", "cancelar"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Ver todas las ventas (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/ventas",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "ventas"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Cambiar estatus de venta (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "PUT",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"estatus\": \"enviado\" }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/ventas/1/estatus",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "ventas", "1", "estatus"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Métricas de ventas (admin)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tYnJlIjoiQWRtaW4iLCJlbWFpbCI6ImFkbWluQHNwb3J0cy5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MjM4MSwiZXhwIjoxNzc3OTExMTgxfQ.Gkz_VSocJ7dU-I3eSmgUWkJDWvQi1-JtHOKv06rEyjg", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/ventas/metricas",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "ventas", "metricas"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "alta de producto",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywibm9tYnJlIjoiUGVkcm8gQ2jDoXZleiIsImVtYWlsIjoicGVkcm9ydDg3MkBnbWFpbC5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MzAyMSwiZXhwIjoxNzc3OTExODIxfQ.eMeVudjAuyVzZdLe-ntrXXEr3sJ9syOwb6MChZ3HL10",
-              "type": "string"
+      "name": "Deseos",
+      "item": [
+        {
+          "name": "Ver lista de deseos",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/deseos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "deseos"]
             }
-          ]
+          },
+          "response": []
         },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"nombre\": \"Balón de prueba\",\r\n  \"precio\": 299.99,\r\n  \"stock\": 10,\r\n  \"deporte\": \"futbol\",\r\n  \"categoria\": \"balones\",\r\n  \"marca\": \"Adidas\",\r\n  \"descripcion\": \"Balón oficial para pruebas\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
+        {
+          "name": "Agregar a lista de deseos",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json", "type": "text" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"productoId\": 1 }",
+              "options": { "raw": { "language": "json" } }
+            },
+            "url": {
+              "raw": "http://localhost:3000/api/deseos",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "deseos"]
             }
-          }
+          },
+          "response": []
         },
-        "url": {
-          "raw": "http://localhost:3000/api/productos",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "productos"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "eliminar producto",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywibm9tYnJlIjoiUGVkcm8gQ2jDoXZleiIsImVtYWlsIjoicGVkcm9ydDg3MkBnbWFpbC5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MzAyMSwiZXhwIjoxNzc3OTExODIxfQ.eMeVudjAuyVzZdLe-ntrXXEr3sJ9syOwb6MChZ3HL10",
-              "type": "string"
+        {
+          "name": "Quitar de lista de deseos",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [{ "key": "token", "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ", "type": "string" }]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3000/api/deseos/1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "3000",
+              "path": ["api", "deseos", "1"]
             }
-          ]
-        },
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/productos/85",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "productos",
-            "85"
-          ]
+          },
+          "response": []
         }
-      },
-      "response": []
-    },
-    {
-      "name": "consultar producto",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/productos/1",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "productos",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "ventas globales",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Mywibm9tYnJlIjoiUGVkcm8gQ2jDoXZleiIsImVtYWlsIjoicGVkcm9ydDg3MkBnbWFpbC5jb20iLCJyb2wiOiJhZG1pbiIsImlhdCI6MTc3Nzg4MzAyMSwiZXhwIjoxNzc3OTExODIxfQ.eMeVudjAuyVzZdLe-ntrXXEr3sJ9syOwb6MChZ3HL10",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/ventas",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "ventas"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "login",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\r\n  \"email\": \"juan@test.com\",\r\n  \"password\": \"123456\"\r\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/api/auth/login",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "auth",
-            "login"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "modificar datos",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{ \"nombre\": \"Juan Actualizado\", \"email\": \"juan.nuevo@test.com\" }\r\n",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/api/usuarios/perfil/datos",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "usuarios",
-            "perfil",
-            "datos"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "cambiarcontraseña",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "PUT",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{ \"passwordActual\": \"123456\", \"passwordNueva\": \"123456789\" }\r\n",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/api/usuarios/perfil/password",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "usuarios",
-            "perfil",
-            "password"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "ver carrito",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/carrito",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "carrito"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "agregar producto a carrito",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{ \"productoId\": 1, \"cantidad\": 2 }\r\n",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "http://localhost:3000/api/carrito",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "carrito"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "quitar producto de carrito",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgzNTQ3LCJleHAiOjE3Nzc5MTIzNDd9.pMg35IrvdXerdtl7HYPTzPvqJml0I5JcFyq9nGKAhQQ",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "DELETE",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/carrito/1",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "carrito",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "ver productos por deporte",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/productos?deporte=futbol",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "productos"
-          ],
-          "query": [
-            {
-              "key": "deporte",
-              "value": "futbol"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "ver porducto por categoria",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/productos?categoria=calzado",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "productos"
-          ],
-          "query": [
-            {
-              "key": "categoria",
-              "value": "calzado"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "ver producto por marca",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/productos?marca=nike",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "productos"
-          ],
-          "query": [
-            {
-              "key": "marca",
-              "value": "nike"
-            }
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "detalle de un producto",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/productos/1",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "productos",
-            "1"
-          ]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "historico de pedidos",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Miwibm9tYnJlIjoiSnVhbiBQw6lyZXoiLCJlbWFpbCI6Imp1YW5AdGVzdC5jb20iLCJyb2wiOiJ1c3VhcmlvIiwiaWF0IjoxNzc3ODgyODIyLCJleHAiOjE3Nzc5MTE2MjJ9.Db0sa_yGej654fYUcw7yjx_uR3CxOWyT87xE4Yp7v9A",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:3000/api/ventas/mias",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "3000",
-          "path": [
-            "api",
-            "ventas",
-            "mias"
-          ]
-        }
-      },
-      "response": []
+      ]
     }
   ]
 }

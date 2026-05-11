@@ -18,7 +18,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navMenu">
-      <ul class="navbar-nav me-auto ms-4 gap-1">
+      <ul class="navbar-nav ms-2 gap-1">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown">
             Deportes
@@ -35,7 +35,19 @@
           </ul>
         </li>
       </ul>
-      <div class="d-flex align-items-center gap-3">
+      <div class="nav-search-center">
+        <form class="nav-search-form" action="/pages/busqueda.html" method="get">
+          <div class="nav-search-wrapper">
+            <input type="text" name="q" class="nav-search-input" placeholder="Buscar productos…" autocomplete="off">
+            <button type="submit" class="nav-search-btn"><i class="bi bi-search"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <a href="/pages/wishlist.html" class="nav-cart-link">
+          <i class="bi bi-heart"></i>
+          <span class="cart-badge wishlist-count" style="display:none">0</span>
+        </a>
         <a href="/pages/cart.html" class="nav-cart-link">
           <i class="bi bi-bag"></i>
           <span class="cart-badge cart-count" style="display:none">0</span>
@@ -64,7 +76,7 @@
     <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
       <div class="filter-bar" id="filtros">
         <button class="filter-btn active" data-cat="">Todo</button>
-        <button class="filter-btn" data-cat="Calzado">Calzado</button>
+        <button class="filter-btn" data-cat="calzado">Calzado</button>
         <button class="filter-btn" data-cat="balones">Balones</button>
         <button class="filter-btn" data-cat="ropa">Ropa</button>
         <button class="filter-btn" data-cat="accesorios">Accesorios</button>

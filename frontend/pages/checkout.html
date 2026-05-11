@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout — SportZone</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/src/css/styles.css">
+  <style>
+    /* ── Stepper ── */
+    .checkout-steps {
+      display: flex; justify-content: center; align-items: center;
+      gap: 0; margin-bottom: 2.5rem;
+    }
+    .checkout-step { display: flex; align-items: center; gap: .5rem; }
+    .step-num {
+      width: 2rem; height: 2rem; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700;
+      background: var(--border, #e0e0e0); color: var(--gray, #888);
+      flex-shrink: 0; transition: background .25s, color .25s;
+    }
+    .step-num.active  { background: var(--primary, #e62e2d); color: #fff; }
+    .step-num.done    { background: #198754; color: #fff; }
+    .step-label { font-size: .8rem; font-weight: 600; color: var(--gray, #888); }
+    .step-label.active { color: var(--primary, #e62e2d); }
+    .step-label.done   { color: #198754; }
+    .step-divider { width: 2.5rem; height: 1px; background: var(--border, #e0e0e0); margin: 0 .4rem; }
+
+    /* ── Cards ── */
+    .checkout-card {
+      background: #fff; border: 1px solid var(--border, #e0e0e0);
+      border-radius: 12px; padding: 1.75rem;
+    }
+    .checkout-section-title {
+      font-family: var(--font-heading, 'Bebas Neue', sans-serif);
+      font-size: 1.05rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .04em;
+      margin-bottom: 1.25rem; color: var(--dark, #111);
+    }
+
+    /* ── Forms ── */
+    .form-label { font-size: .82rem; font-weight: 600; color: var(--dark, #111); margin-bottom: .3rem; }
+    .form-control, .form-select {
+      border: 1px solid var(--border, #e0e0e0); border-radius: 8px;
+      font-size: .9rem; padding: .6rem .85rem;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary, #e62e2d);
+      box-shadow: 0 0 0 3px rgba(230,46,45,.12);
+      outline: none;
+    }
+    .form-control.is-invalid { border-color: #dc3545; }
+
+    /* ── Card preview ── */
+    .card-preview {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 55%, #0f3460 100%);
+      border-radius: 16px; padding: 1.4rem 1.5rem;
+      color: #fff; position: relative; overflow: hidden;
+      height: 165px; margin-bottom: 1.5rem; user-select: none;
+    }
+    .card-preview::before {
+      content: ''; position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: rgba(255,255,255,.05);
+    }
+    .card-preview::after {
+      content: ''; position: absolute; bottom: -60px; right: 50px;
+      width: 160px; height: 160px; border-radius: 50%;
+      background: rgba(255,255,255,.07);
+    }
+    .card-preview-chip {
+      width: 36px; height: 27px; background: linear-gradient(135deg,#d4a843,#f5d06e);
+      border-radius: 5px; margin-bottom: .8rem; position: relative; z-index: 1;
+    }
+    .card-number-display {
+      font-size: 1.1rem; letter-spacing: .18em; font-family: 'Courier New', monospace;
+      position: absolute; bottom: 3rem; left: 1.5rem; z-index: 1;
+    }
+    .card-info-row {
+      position: absolute; bottom: 1rem; left: 1.5rem; right: 1.5rem;
+      display: flex; justify-content: space-between; z-index: 1;
+      font-size: .7rem; opacity: .75; text-transform: uppercase; letter-spacing: .04em;
+    }
+    .card-info-row b { display: block; font-size: .82rem; opacity: 1; margin-top: .1rem; }
+    .card-type-badge {
+      position: absolute; top: 1.25rem; right: 1.25rem; z-index: 1;
+      font-size: .85rem; font-weight: 800; letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    /* ── Summary card ── */
+    .summary-card {
+      background: var(--bg-alt, #f8f9fa); border: 1px solid var(--border, #e0e0e0);
+      border-radius: 12px; padding: 1.5rem; position: sticky; top: 1rem;
+    }
+    .summary-item { display: flex; gap: .75rem; margin-bottom: .85rem; align-items: flex-start; }
+    .summary-item-img {
+      width: 54px; height: 54px; object-fit: cover; border-radius: 8px;
+      background: var(--border); flex-shrink: 0;
+    }
+    .summary-item-placeholder {
+      width: 54px; height: 54px; border-radius: 8px; background: var(--border);
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+    .summary-item-name { font-size: .82rem; font-weight: 600; line-height: 1.3; }
+    .summary-item-meta { font-size: .75rem; color: var(--gray); }
+    .summary-item-price { font-size: .85rem; font-weight: 700; margin-left: auto; white-space: nowrap; padding-left: .5rem; }
+    .summary-divider { border: none; border-top: 1px solid var(--border); margin: 1rem 0; }
+    .summary-row { display: flex; justify-content: space-between; font-size: .85rem; margin-bottom: .35rem; }
+    .summary-total { display: flex; justify-content: space-between; font-weight: 700; font-size: 1rem; margin-top: .5rem; }
+
+    /* ── Review blocks (step 3) ── */
+    .review-block {
+      background: var(--bg-alt, #f8f9fa); border-radius: 10px;
+      padding: 1rem 1.25rem; margin-bottom: .9rem; font-size: .875rem;
+    }
+    .review-label {
+      font-size: .7rem; text-transform: uppercase; letter-spacing: .06em;
+      color: var(--gray, #888); font-weight: 700; margin-bottom: .4rem;
+    }
+
+    /* ── Back button ── */
+    .btn-back {
+      background: none; border: 1px solid var(--border, #ddd); color: var(--dark, #111);
+      border-radius: 8px; padding: .55rem 1.15rem; font-size: .85rem; font-weight: 600;
+      cursor: pointer; transition: background .15s;
+    }
+    .btn-back:hover { background: var(--border, #eee); }
+
+    /* ── Success screen ── */
+    #checkout-exito {
+      text-align: center; padding: 3.5rem 1rem;
+    }
+    .success-circle {
+      width: 80px; height: 80px; border-radius: 50%; background: #d1fae5;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; margin: 0 auto 1.5rem;
+    }
+  </style>
+</head>
+<body class="page-cart">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand" href="/index.html">SPORT<span>ZONE</span></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-2 gap-1">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Deportes
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/pages/categorias/basquetbol.html">🏀 Basquetbol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/futbol.html">⚽ Fútbol</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/voleibol.html">🏐 Voleibol</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/pages/categorias/tenis.html">🎾 Tenis</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/running.html">🏃 Running</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/lifestyle.html">✨ Lifestyle</a></li>
+            <li><a class="dropdown-item" href="/pages/categorias/training.html">💪 Gym</a></li>
+          </ul>
+        </li>
+      </ul>
+      <div class="nav-search-center">
+        <form class="nav-search-form" action="/pages/busqueda.html" method="get">
+          <div class="nav-search-wrapper">
+            <input type="text" name="q" class="nav-search-input" placeholder="Buscar productos…" autocomplete="off">
+            <button type="submit" class="nav-search-btn"><i class="bi bi-search"></i></button>
+          </div>
+        </form>
+      </div>
+      <div class="ms-auto d-flex align-items-center gap-3">
+        <a href="/pages/wishlist.html" class="nav-cart-link">
+          <i class="bi bi-heart"></i>
+          <span class="cart-badge wishlist-count" style="display:none">0</span>
+        </a>
+        <a href="/pages/cart.html" class="nav-cart-link">
+          <i class="bi bi-bag"></i>
+          <span class="cart-badge cart-count" style="display:none">0</span>
+        </a>
+        <div id="nav-auth"></div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div style="background:var(--white);border-bottom:1px solid var(--border);">
+  <div class="container py-2">
+    <span style="font-size:.75rem;color:var(--gray);">
+      <a href="/index.html" style="color:var(--gray);">Inicio</a>
+      &nbsp;/&nbsp; <a href="/pages/cart.html" style="color:var(--gray);">Mi Carrito</a>
+      &nbsp;/&nbsp; Checkout
+    </span>
+  </div>
+</div>
+
+<!-- STEPPER -->
+<div class="container mt-4" id="checkout-stepper">
+  <div class="checkout-steps">
+    <div class="checkout-step">
+      <div class="step-num active" id="step-num-1">1</div>
+      <span class="step-label active" id="step-label-1">Envío</span>
+    </div>
+    <div class="step-divider"></div>
+    <div class="checkout-step">
+      <div class="step-num" id="step-num-2">2</div>
+      <span class="step-label" id="step-label-2">Pago</span>
+    </div>
+    <div class="step-divider"></div>
+    <div class="checkout-step">
+      <div class="step-num" id="step-num-3">3</div>
+      <span class="step-label" id="step-label-3">Confirmar</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="container pb-5">
+
+  <!-- Steps + summary row -->
+  <div id="checkout-row" class="row g-4">
+
+    <!-- LEFT: form steps -->
+    <div class="col-lg-7">
+
+      <!-- ── STEP 1: Dirección de envío ── -->
+      <div id="checkout-step1" class="checkout-card">
+        <div class="checkout-section-title">
+          <i class="bi bi-geo-alt me-2"></i>Dirección de envío
+        </div>
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Nombre completo *</label>
+            <input type="text" class="form-control" id="env-nombre" placeholder="Ej. Juan García López" autocomplete="name">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Calle y número *</label>
+            <input type="text" class="form-control" id="env-calle" placeholder="Ej. Av. Insurgentes Sur 1234, Int. 5" autocomplete="street-address">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Colonia *</label>
+            <input type="text" class="form-control" id="env-colonia" placeholder="Ej. Del Valle" autocomplete="address-level3">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Ciudad *</label>
+            <input type="text" class="form-control" id="env-ciudad" placeholder="Ej. Ciudad de México" autocomplete="address-level2">
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Estado *</label>
+            <select class="form-select" id="env-estado" autocomplete="address-level1">
+              <option value="">Selecciona…</option>
+              <option>Aguascalientes</option><option>Baja California</option>
+              <option>Baja California Sur</option><option>Campeche</option>
+              <option>Chiapas</option><option>Chihuahua</option>
+              <option>Ciudad de México</option><option>Coahuila</option>
+              <option>Colima</option><option>Durango</option>
+              <option>Estado de México</option><option>Guanajuato</option>
+              <option>Guerrero</option><option>Hidalgo</option>
+              <option>Jalisco</option><option>Michoacán</option>
+              <option>Morelos</option><option>Nayarit</option>
+              <option>Nuevo León</option><option>Oaxaca</option>
+              <option>Puebla</option><option>Querétaro</option>
+              <option>Quintana Roo</option><option>San Luis Potosí</option>
+              <option>Sinaloa</option><option>Sonora</option>
+              <option>Tabasco</option><option>Tamaulipas</option>
+              <option>Tlaxcala</option><option>Veracruz</option>
+              <option>Yucatán</option><option>Zacatecas</option>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Código postal *</label>
+            <input type="text" class="form-control" id="env-cp" placeholder="00000" maxlength="5" inputmode="numeric" autocomplete="postal-code">
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Teléfono *</label>
+            <input type="tel" class="form-control" id="env-telefono" placeholder="55 1234 5678" autocomplete="tel">
+          </div>
+        </div>
+        <div class="d-flex justify-content-end mt-4">
+          <button class="btn btn-primary" onclick="continuarAPago()">
+            Continuar <i class="bi bi-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 2: Pago ── -->
+      <div id="checkout-step2" class="checkout-card" style="display:none;">
+        <div class="checkout-section-title">
+          <i class="bi bi-credit-card me-2"></i>Método de pago
+        </div>
+
+        <!-- Tarjeta visual -->
+        <div class="card-preview">
+          <div class="card-preview-chip"></div>
+          <div class="card-type-badge" id="card-tipo-badge">––</div>
+          <div class="card-number-display" id="card-num-display">•••• •••• •••• ••••</div>
+          <div class="card-info-row">
+            <div>
+              <span>Titular</span>
+              <b id="card-nombre-display">NOMBRE APELLIDO</b>
+            </div>
+            <div class="text-end">
+              <span>Vence</span>
+              <b id="card-exp-display">MM/AA</b>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label">Número de tarjeta *</label>
+            <input type="text" class="form-control" id="pago-numero"
+                   placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric"
+                   autocomplete="cc-number">
+          </div>
+          <div class="col-12">
+            <label class="form-label">Nombre del titular *</label>
+            <input type="text" class="form-control" id="pago-nombre"
+                   placeholder="Como aparece en la tarjeta" autocomplete="cc-name">
+          </div>
+          <div class="col-6">
+            <label class="form-label">Vencimiento *</label>
+            <input type="text" class="form-control" id="pago-exp"
+                   placeholder="MM/AA" maxlength="5" inputmode="numeric"
+                   autocomplete="cc-exp">
+          </div>
+          <div class="col-6">
+            <label class="form-label">CVV *</label>
+            <input type="text" class="form-control" id="pago-cvv"
+                   placeholder="•••" maxlength="4" inputmode="numeric"
+                   autocomplete="cc-csc">
+          </div>
+        </div>
+        <p style="font-size:.75rem;color:var(--gray);margin-top:.75rem;margin-bottom:0;">
+          <i class="bi bi-shield-lock me-1"></i>
+          Pago simulado — no se realizará ningún cargo real.
+        </p>
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn-back" onclick="volverAEnvio()">
+            <i class="bi bi-arrow-left me-1"></i> Atrás
+          </button>
+          <button class="btn btn-primary" onclick="continuarAConfirmacion()">
+            Continuar <i class="bi bi-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ── STEP 3: Confirmar ── -->
+      <div id="checkout-step3" class="checkout-card" style="display:none;">
+        <div class="checkout-section-title">
+          <i class="bi bi-check2-circle me-2"></i>Revisa tu pedido
+        </div>
+
+        <div class="review-block">
+          <div class="review-label"><i class="bi bi-geo-alt me-1"></i>Dirección de envío</div>
+          <div id="confirm-direccion" style="line-height:1.6;"></div>
+        </div>
+
+        <div class="review-block">
+          <div class="review-label"><i class="bi bi-credit-card me-1"></i>Método de pago</div>
+          <div id="confirm-pago" style="line-height:1.6;"></div>
+        </div>
+
+        <div class="review-block">
+          <div class="review-label"><i class="bi bi-bag me-1"></i>Productos</div>
+          <div id="confirm-productos"></div>
+          <hr class="summary-divider" style="margin-bottom:.5rem;">
+          <div class="d-flex justify-content-between" style="font-weight:700;font-size:.95rem;">
+            <span>Total a pagar</span>
+            <span id="confirm-total">$0</span>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+          <button class="btn-back" onclick="volverAPago()">
+            <i class="bi bi-arrow-left me-1"></i> Atrás
+          </button>
+          <button class="btn btn-primary btn-lg" id="btn-confirmar" onclick="confirmarPedido()">
+            <i class="bi bi-lock-fill me-2"></i>Confirmar y pagar
+          </button>
+        </div>
+        <p style="font-size:.72rem;color:var(--gray);text-align:center;margin-top:.75rem;margin-bottom:0;">
+          <i class="bi bi-shield-check me-1"></i>
+          Al confirmar aceptas que este es un pago simulado sin cargo real.
+        </p>
+      </div>
+
+    </div><!-- /col-lg-7 -->
+
+    <!-- RIGHT: Resumen del pedido -->
+    <div class="col-lg-5">
+      <div class="summary-card">
+        <div class="checkout-section-title">Tu pedido</div>
+        <div id="summary-items"></div>
+        <hr class="summary-divider">
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span id="summary-subtotal">$0</span>
+        </div>
+        <div class="summary-row">
+          <span>Envío</span>
+          <span style="color:#198754;font-weight:600;">Gratis</span>
+        </div>
+        <hr class="summary-divider" style="margin-top:.25rem;">
+        <div class="summary-total">
+          <span>Total</span>
+          <span id="summary-total">$0</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /checkout-row -->
+
+  <!-- ── PANTALLA DE ÉXITO ── -->
+  <div id="checkout-exito" style="display:none;">
+    <div class="success-circle">✅</div>
+    <h2 style="font-family:var(--font-heading);font-weight:700;text-transform:uppercase;margin-bottom:.5rem;">
+      ¡Pedido confirmado!
+    </h2>
+    <p style="color:var(--gray);font-size:.95rem;margin-bottom:.25rem;">
+      Número de pedido: <strong id="pedido-numero" style="color:var(--dark);">#000</strong>
+    </p>
+    <p style="color:var(--gray);font-size:.9rem;">
+      Recibirás actualizaciones en <strong id="pedido-email"></strong>
+    </p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap mt-4">
+      <a href="/pages/pedidos.html" class="btn btn-primary">Ver mis pedidos</a>
+      <a href="/index.html" class="btn btn-outline-secondary">Seguir comprando</a>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="footer-brand">SPORT<span>ZONE</span></div>
+        <p class="footer-desc">
+          Equipamiento de alto rendimiento para todos los deportes y estilos de vida.
+        </p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <div class="footer-col-title">Cuenta</div>
+        <ul class="footer-list">
+          <li><a href="/pages/perfil.html">Mi perfil</a></li>
+          <li><a href="/pages/pedidos.html">Mis pedidos</a></li>
+          <li><a href="/pages/cart.html">Mi carrito</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 SportZone. Todos los derechos reservados.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/src/js/auth.js"></script>
+<script src="/src/js/api.js"></script>
+<script src="/src/js/cart.js"></script>
+<script>
+  /* ── Guards ── */
+  if (!estaLogueado()) {
+    window.location.href = '/pages/login.html';
+  }
+  if (!obtenerCarrito().length) {
+    window.location.href = '/pages/cart.html';
+  }
+
+  /* ── Resumen del pedido ── */
+  function renderSummary() {
+    const items = obtenerCarrito();
+    const container = document.getElementById('summary-items');
+    container.innerHTML = items.map(item => {
+      const imgEl = item.imagen
+        ? `<img src="${item.imagen}" class="summary-item-img" alt="${item.nombre}">`
+        : `<div class="summary-item-placeholder">🏋️</div>`;
+      return `
+        <div class="summary-item">
+          ${imgEl}
+          <div style="flex:1;min-width:0;">
+            <div class="summary-item-name">${item.nombre}</div>
+            <div class="summary-item-meta">${item.marca || ''} &middot; &times;${item.cantidad}</div>
+          </div>
+          <div class="summary-item-price">$${(item.precio * item.cantidad).toLocaleString('es-MX')}</div>
+        </div>`;
+    }).join('');
+    const total = items.reduce((s, i) => s + i.precio * i.cantidad, 0);
+    document.getElementById('summary-subtotal').textContent = '$' + total.toLocaleString('es-MX');
+    document.getElementById('summary-total').textContent    = '$' + total.toLocaleString('es-MX');
+  }
+
+  /* ── Stepper ── */
+  function setStep(n) {
+    [1, 2, 3].forEach(i => {
+      const el   = document.getElementById('checkout-step' + i);
+      const num  = document.getElementById('step-num-' + i);
+      const lbl  = document.getElementById('step-label-' + i);
+      el.style.display = (i === n) ? 'block' : 'none';
+      if (i < n) {
+        num.className = 'step-num done';
+        num.innerHTML = '<i class="bi bi-check-lg"></i>';
+        lbl.className = 'step-label done';
+      } else if (i === n) {
+        num.className = 'step-num active';
+        num.textContent = i;
+        lbl.className = 'step-label active';
+      } else {
+        num.className = 'step-num';
+        num.textContent = i;
+        lbl.className = 'step-label';
+      }
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── Step 1 → 2 ── */
+  function continuarAPago() {
+    const campos = [
+      { id: 'env-nombre',   label: 'nombre completo' },
+      { id: 'env-calle',    label: 'calle y número' },
+      { id: 'env-colonia',  label: 'colonia' },
+      { id: 'env-ciudad',   label: 'ciudad' },
+      { id: 'env-estado',   label: 'estado' },
+      { id: 'env-cp',       label: 'código postal' },
+      { id: 'env-telefono', label: 'teléfono' },
+    ];
+    for (const c of campos) {
+      if (!document.getElementById(c.id).value.trim()) {
+        mostrarToast('Por favor ingresa tu ' + c.label + '.', 'error');
+        document.getElementById(c.id).focus();
+        return;
+      }
+    }
+    if (!/^\d{5}$/.test(document.getElementById('env-cp').value)) {
+      mostrarToast('El código postal debe tener 5 dígitos.', 'error');
+      document.getElementById('env-cp').focus();
+      return;
+    }
+    setStep(2);
+  }
+
+  function volverAEnvio() { setStep(1); }
+
+  /* ── Card inputs ── */
+  function detectarTipo(digits) {
+    if (/^4/.test(digits))        return 'Visa';
+    if (/^5[1-5]/.test(digits) || /^2[2-7]/.test(digits)) return 'Mastercard';
+    if (/^3[47]/.test(digits))   return 'Amex';
+    if (/^6/.test(digits))        return 'Carnet';
+    return '––';
+  }
+
+  const cardBadgeColors = {
+    'Visa':       '#1a1f71',
+    'Mastercard': '#eb001b',
+    'Amex':       '#007bc1',
+    'Carnet':     '#005ca9',
+  };
+
+  document.getElementById('pago-numero').addEventListener('input', function () {
+    let raw = this.value.replace(/\D/g, '').substring(0, 16);
+    this.value = raw.replace(/(.{4})(?=.)/g, '$1 ');
+
+    const tipo = detectarTipo(raw);
+    const badge = document.getElementById('card-tipo-badge');
+    badge.textContent = tipo;
+    badge.style.color = cardBadgeColors[tipo] || 'rgba(255,255,255,.5)';
+
+    const padded = raw.padEnd(16, '');
+    const display = [0, 4, 8, 12]
+      .map(i => padded.substring(i, i + 4).padEnd(4, '•'))
+      .join(' ');
+    document.getElementById('card-num-display').textContent = display;
+  });
+
+  document.getElementById('pago-nombre').addEventListener('input', function () {
+    const v = this.value.toUpperCase();
+    document.getElementById('card-nombre-display').textContent = v || 'NOMBRE APELLIDO';
+  });
+
+  document.getElementById('pago-exp').addEventListener('input', function () {
+    let raw = this.value.replace(/\D/g, '').substring(0, 4);
+    if (raw.length > 2) raw = raw.substring(0, 2) + '/' + raw.substring(2);
+    this.value = raw;
+    document.getElementById('card-exp-display').textContent = raw || 'MM/AA';
+  });
+
+  document.getElementById('pago-cvv').addEventListener('input', function () {
+    this.value = this.value.replace(/\D/g, '').substring(0, 4);
+  });
+
+  document.getElementById('env-cp').addEventListener('input', function () {
+    this.value = this.value.replace(/\D/g, '').substring(0, 5);
+  });
+
+  /* ── Step 2 → 3 ── */
+  function continuarAConfirmacion() {
+    const numero = document.getElementById('pago-numero').value.replace(/\s/g, '');
+    const nombre = document.getElementById('pago-nombre').value.trim();
+    const exp    = document.getElementById('pago-exp').value;
+    const cvv    = document.getElementById('pago-cvv').value;
+
+    if (numero.length < 13) {
+      mostrarToast('Ingresa un número de tarjeta válido.', 'error');
+      document.getElementById('pago-numero').focus();
+      return;
+    }
+    if (!nombre) {
+      mostrarToast('Ingresa el nombre del titular.', 'error');
+      document.getElementById('pago-nombre').focus();
+      return;
+    }
+    if (!/^\d{2}\/\d{2}$/.test(exp)) {
+      mostrarToast('Ingresa la fecha de vencimiento en formato MM/AA.', 'error');
+      document.getElementById('pago-exp').focus();
+      return;
+    }
+    const [mm] = exp.split('/').map(Number);
+    if (mm < 1 || mm > 12) {
+      mostrarToast('El mes de vencimiento debe ser entre 01 y 12.', 'error');
+      return;
+    }
+    if (cvv.length < 3) {
+      mostrarToast('Ingresa el CVV de tu tarjeta.', 'error');
+      document.getElementById('pago-cvv').focus();
+      return;
+    }
+
+    /* Llenar pantalla de confirmación */
+    const dir = {
+      nombre:   document.getElementById('env-nombre').value.trim(),
+      calle:    document.getElementById('env-calle').value.trim(),
+      colonia:  document.getElementById('env-colonia').value.trim(),
+      ciudad:   document.getElementById('env-ciudad').value.trim(),
+      estado:   document.getElementById('env-estado').value,
+      cp:       document.getElementById('env-cp').value.trim(),
+      telefono: document.getElementById('env-telefono').value.trim(),
+    };
+    document.getElementById('confirm-direccion').innerHTML = `
+      <div style="font-weight:600;">${dir.nombre}</div>
+      <div>${dir.calle}, ${dir.colonia}</div>
+      <div>${dir.ciudad}, ${dir.estado} &mdash; CP ${dir.cp}</div>
+      <div style="color:var(--gray);">Tel: ${dir.telefono}</div>`;
+
+    const tipo = detectarTipo(numero);
+    const ultimos4 = numero.slice(-4);
+    document.getElementById('confirm-pago').innerHTML = `
+      <div><strong>${tipo}</strong> &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull; ${ultimos4}</div>
+      <div style="color:var(--gray);">${nombre.toUpperCase()}</div>
+      <div style="color:var(--gray);">Vence: ${exp}</div>`;
+
+    const items = obtenerCarrito();
+    document.getElementById('confirm-productos').innerHTML = items.map(p => `
+      <div class="d-flex justify-content-between align-items-center py-1"
+           style="font-size:.85rem;border-bottom:1px solid var(--border);">
+        <span>${p.nombre} <span style="color:var(--gray);">&times;${p.cantidad}</span></span>
+        <span style="font-weight:600;">$${(p.precio * p.cantidad).toLocaleString('es-MX')}</span>
+      </div>`).join('');
+
+    const total = items.reduce((s, i) => s + i.precio * i.cantidad, 0);
+    document.getElementById('confirm-total').textContent = '$' + total.toLocaleString('es-MX');
+
+    setStep(3);
+  }
+
+  function volverAPago() { setStep(2); }
+
+  /* ── Confirmar y pagar ── */
+  async function confirmarPedido() {
+    const btn = document.getElementById('btn-confirmar');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status"></span>Procesando…';
+
+    const numero = document.getElementById('pago-numero').value.replace(/\s/g, '');
+    const tipo   = detectarTipo(numero);
+
+    const body = {
+      items: obtenerCarrito().map(i => ({ productoId: i.id, cantidad: i.cantidad })),
+      direccionEnvio: {
+        nombre:   document.getElementById('env-nombre').value.trim(),
+        calle:    document.getElementById('env-calle').value.trim(),
+        colonia:  document.getElementById('env-colonia').value.trim(),
+        ciudad:   document.getElementById('env-ciudad').value.trim(),
+        estado:   document.getElementById('env-estado').value,
+        cp:       document.getElementById('env-cp').value.trim(),
+        telefono: document.getElementById('env-telefono').value.trim(),
+      },
+      pago: {
+        tipo,
+        ultimos4:      numero.slice(-4),
+        nombreTarjeta: document.getElementById('pago-nombre').value.trim().toUpperCase(),
+      }
+    };
+
+    try {
+      const venta = await ventasAPI.crear(body);
+
+      guardarCarrito([]);
+      actualizarBadge();
+
+      /* Mostrar éxito */
+      document.getElementById('checkout-stepper').style.display = 'none';
+      document.getElementById('checkout-row').style.display     = 'none';
+      document.getElementById('checkout-exito').style.display   = 'block';
+      document.getElementById('pedido-numero').textContent      = '#' + venta.id;
+      document.getElementById('pedido-email').textContent       = getUsuario()?.email || '';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e) {
+      mostrarToast(e.message || 'Error al procesar el pedido. Intenta de nuevo.', 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-lock-fill me-2"></i>Confirmar y pagar';
+    }
+  }
+
+  /* ── Init ── */
+  document.addEventListener('DOMContentLoaded', () => {
+    renderNavAuth();
+    actualizarBadge();
+    actualizarWishlistBadge();
+    renderSummary();
+  });
+</script>
+
+</body>
+</html>

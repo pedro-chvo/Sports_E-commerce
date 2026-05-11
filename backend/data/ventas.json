@@ -15,7 +15,108 @@
       }
     ],
     "total": 15998,
-    "estatus": "entregado",
+    "estatus": "cancelado",
     "fecha": "2026-05-04T07:23:41.511Z"
+  },
+  {
+    "id": 2,
+    "usuarioId": 4,
+    "usuarioNombre": "Juan Actualizado",
+    "usuarioEmail": "juan.nuevo@test.com",
+    "productos": [
+      {
+        "productoId": 3,
+        "nombre": "Tacos de Fútbol F50 TUNIT para Terreno Firme",
+        "marca": "Adidas",
+        "precio": 7999,
+        "cantidad": 1,
+        "subtotal": 7999
+      }
+    ],
+    "total": 7999,
+    "estatus": "entregado",
+    "fecha": "2026-05-07T14:25:48.904Z"
+  },
+  {
+    "id": 3,
+    "usuarioId": 3,
+    "usuarioNombre": "Pedro Chávez",
+    "usuarioEmail": "pedrort872@gmail.com",
+    "productos": [
+      {
+        "productoId": 7,
+        "nombre": "WNBA Legends",
+        "marca": "Nike",
+        "precio": 1599,
+        "cantidad": 4,
+        "subtotal": 6396
+      },
+      {
+        "productoId": 22,
+        "nombre": "Under Armour Curry 12",
+        "marca": "Under Armour",
+        "precio": 4999,
+        "cantidad": 2,
+        "subtotal": 9998
+      },
+      {
+        "productoId": 26,
+        "nombre": "Spalding NBA Street Outdoor",
+        "marca": "Spalding",
+        "precio": 899,
+        "cantidad": 4,
+        "subtotal": 3596
+      }
+    ],
+    "total": 19990,
+    "estatus": "cancelado",
+    "fecha": "2026-05-11T05:00:30.935Z",
+    "direccionEnvio": {
+      "nombre": "Pedro Chávez",
+      "calle": "Santa fe 82",
+      "colonia": "Nueva Galciai",
+      "ciudad": "Tlajoyork",
+      "estado": "Jalisco",
+      "cp": "45645",
+      "telefono": "3318374329"
+    },
+    "pago": {
+      "tipo": "––",
+      "ultimos4": "6543",
+      "nombreTarjeta": "PEDRO CHÁVEZ"
+    }
+  },
+  {
+    "id": 4,
+    "usuarioId": 3,
+    "usuarioNombre": "Pedro Chávez",
+    "usuarioEmail": "pedrort872@gmail.com",
+    "productos": [
+      {
+        "productoId": 8,
+        "nombre": "Jersey Visitante Selección Argentina 26 Versión Jugador",
+        "marca": "Adidas",
+        "precio": 2999,
+        "cantidad": 1,
+        "subtotal": 2999
+      }
+    ],
+    "total": 2999,
+    "estatus": "cancelado",
+    "fecha": "2026-05-11T05:05:25.809Z",
+    "direccionEnvio": {
+      "nombre": "x",
+      "calle": "dxdgwgw",
+      "colonia": "xcddgerth",
+      "ciudad": "xdxdrgyerw",
+      "estado": "Morelos",
+      "cp": "43243",
+      "telefono": "4324234234324"
+    },
+    "pago": {
+      "tipo": "Amex",
+      "ultimos4": "2413",
+      "nombreTarjeta": "2131313213123123"
+    }
   }
 ]

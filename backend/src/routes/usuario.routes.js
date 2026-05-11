@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const {
-    getUsuarios, eliminarUsuario, cambiarRol,
+    crearUsuario, getUsuarios, eliminarUsuario, cambiarRol,
     actualizarPerfil, cambiarPassword
 } = require('../controllers/usuario.controller');
 const { verificarToken, soloAdmin } = require('../middlewares/auth.middleware');
 
 // Admin: gestión de usuarios
+router.post('/', verificarToken, soloAdmin, crearUsuario);
 router.get('/', verificarToken, soloAdmin, getUsuarios);
 router.delete('/:id', verificarToken, soloAdmin, eliminarUsuario);
 router.put('/:id/rol', verificarToken, soloAdmin, cambiarRol);

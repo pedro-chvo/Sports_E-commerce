@@ -7,6 +7,8 @@ const ESTATUSES = ['pendiente', 'procesando', 'enviado', 'entregado', 'cancelado
 const crearVenta = (req, res) => {
     // Acepta items del body o toma los del carrito guardado en servidor
     let items = req.body.items;
+    const direccionEnvio = req.body.direccionEnvio || null;
+    const pagoInfo = req.body.pago || null;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
         // Fallback: usar carrito del servidor
@@ -54,7 +56,9 @@ const crearVenta = (req, res) => {
         productos: productosVenta,
         total: parseFloat(productosVenta.reduce((acc, p) => acc + p.subtotal, 0).toFixed(2)),
         estatus: 'pendiente',
-        fecha: new Date().toISOString()
+        fecha: new Date().toISOString(),
+        direccionEnvio,
+        pago: pagoInfo
     };
 
     ventas.push(nuevaVenta);
@@ -97,6 +101,17 @@ const getMisVentas = (req, res) => {
     res.json(misVentas);
 };
 
+// ── Restaurar stock al cancelar ───────────────────────────────────────────────
+
+const restaurarStock = (venta) => {
+    const productos = leer('productos');
+    venta.productos.forEach(item => {
+        const idx = productos.findIndex(p => p.id === item.productoId);
+        if (idx !== -1) productos[idx].stock += item.cantidad;
+    });
+    escribir('productos', productos);
+};
+
 // ── Admin: cambiar estatus de una venta ───────────────────────────────────────
 
 const cambiarEstatus = (req, res) => {
@@ -111,7 +126,33 @@ const cambiarEstatus = (req, res) => {
     const index = ventas.findIndex(v => v.id === parseInt(req.params.id));
     if (index === -1) return res.status(404).json({ mensaje: 'Venta no encontrada' });
 
+    const anterior = ventas[index].estatus;
+    if (estatus === 'cancelado' && anterior !== 'cancelado') {
+        restaurarStock(ventas[index]);
+    }
+
     ventas[index].estatus = estatus;
+    escribir('ventas', ventas);
+    res.json(ventas[index]);
+};
+
+// ── Usuario: cancelar su propio pedido ───────────────────────────────────────
+
+const cancelarPedido = (req, res) => {
+    const ventas = leer('ventas');
+    const index = ventas.findIndex(v => v.id === parseInt(req.params.id));
+    if (index === -1) return res.status(404).json({ mensaje: 'Venta no encontrada' });
+
+    const venta = ventas[index];
+    if (venta.usuarioId !== req.usuario.id) {
+        return res.status(403).json({ mensaje: 'No tienes permiso para cancelar este pedido' });
+    }
+    if (venta.estatus !== 'pendiente') {
+        return res.status(400).json({ mensaje: 'Solo puedes cancelar pedidos en estatus pendiente' });
+    }
+
+    restaurarStock(venta);
+    ventas[index].estatus = 'cancelado';
     escribir('ventas', ventas);
     res.json(ventas[index]);
 };
@@ -130,4 +171,53 @@ const getVentaById = (req, res) => {
     res.json(venta);
 };
 
-module.exports = { crearVenta, getVentas, getMisVentas, cambiarEstatus, getVentaById };
+// ── Admin: métricas del dashboard ─────────────────────────────────────────────
+
+const getMetricas = (req, res) => {
+    const ventas   = leer('ventas');
+    const productos = leer('productos');
+
+    const deporteMap = {};
+    productos.forEach(p => { deporteMap[p.id] = p.deporte; });
+
+    const ventasActivas = ventas.filter(v => v.estatus !== 'cancelado');
+
+    const ingresosTotales = parseFloat(
+        ventasActivas.reduce((s, v) => s + v.total, 0).toFixed(2)
+    );
+
+    const ventasPorEstatus = { pendiente: 0, procesando: 0, enviado: 0, entregado: 0, cancelado: 0 };
+    ventas.forEach(v => { ventasPorEstatus[v.estatus] = (ventasPorEstatus[v.estatus] || 0) + 1; });
+
+    const productosMap = {};
+    ventasActivas.forEach(v => {
+        v.productos.forEach(p => {
+            if (!productosMap[p.productoId]) {
+                productosMap[p.productoId] = { nombre: p.nombre, marca: p.marca || '', cantidad: 0, ingresos: 0 };
+            }
+            productosMap[p.productoId].cantidad += p.cantidad;
+            productosMap[p.productoId].ingresos  = parseFloat((productosMap[p.productoId].ingresos + p.subtotal).toFixed(2));
+        });
+    });
+    const productosMasVendidos = Object.values(productosMap)
+        .sort((a, b) => b.cantidad - a.cantidad)
+        .slice(0, 7);
+
+    const ingresosPorDeporte = {};
+    ventasActivas.forEach(v => {
+        v.productos.forEach(p => {
+            const dep = deporteMap[p.productoId] || 'otro';
+            ingresosPorDeporte[dep] = parseFloat(((ingresosPorDeporte[dep] || 0) + p.subtotal).toFixed(2));
+        });
+    });
+
+    res.json({
+        ingresosTotales,
+        totalVentas: ventas.length,
+        ventasPorEstatus,
+        productosMasVendidos,
+        ingresosPorDeporte,
+    });
+};
+
+module.exports = { crearVenta, getVentas, getMisVentas, cambiarEstatus, cancelarPedido, getVentaById, getMetricas };

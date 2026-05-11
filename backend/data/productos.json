@@ -29,7 +29,7 @@
     "nombre": "Tacos de Fútbol F50 TUNIT para Terreno Firme",
     "descripcion": "Diseñados pensando en el futbolista moderno, los Tacos de Fútbol F50 TUNIT para Terreno Firme reúnen lo último en tecnología de rendimiento y estilo.",
     "precio": 7999,
-    "stock": 6,
+    "stock": 5,
     "deporte": "futbol",
     "categoria": "calzado",
     "marca": "Adidas",
@@ -497,7 +497,7 @@
     "categoria": "raquetas",
     "marca": "Wilson",
     "color": "verde/negro",
-    "imagen": ""
+    "imagen": "/src/assets/Wilson Blade 98 v9.png"
   },
   {
     "id": 42,
@@ -508,8 +508,8 @@
     "deporte": "tenis",
     "categoria": "calzado",
     "marca": "Nike",
-    "color": "blanco/negro/rojo",
-    "imagen": "",
+    "color": "blanco/verde/rojo",
+    "imagen": "/src/assets/Nike Court Air Zoom Vapor 11.png",
     "destacado": true
   },
   {
@@ -521,8 +521,8 @@
     "deporte": "tenis",
     "categoria": "raquetas",
     "marca": "Head",
-    "color": "negro/amarillo",
-    "imagen": ""
+    "color": "negro/azul",
+    "imagen": "/src/assets/Head Gravity Tour.png"
   },
   {
     "id": 44,
@@ -533,8 +533,8 @@
     "deporte": "tenis",
     "categoria": "calzado",
     "marca": "Adidas",
-    "color": "azul/blanco",
-    "imagen": ""
+    "color": "negro/blanco",
+    "imagen": "/src/assets/Adidas Barricade 13.png"
   },
   {
     "id": 45,
@@ -546,7 +546,7 @@
     "categoria": "raquetas",
     "marca": "Babolat",
     "color": "azul/negro",
-    "imagen": ""
+    "imagen": "/src/assets/Babolat Pure Drive 110.png"
   },
   {
     "id": 46,
@@ -557,8 +557,8 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "Nike",
-    "color": "rosa/verde",
-    "imagen": "",
+    "color": "blanco/gris",
+    "imagen": "/src/assets/Nike Vaporfly 3.png",
     "destacado": true
   },
   {
@@ -570,8 +570,8 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "Adidas",
-    "color": "blanco/negro/dorado",
-    "imagen": ""
+    "color": "gris/negro/verde",
+    "imagen": "/src/assets/Adidas Adizero Adios Pro 3.png"
   },
   {
     "id": 48,
@@ -582,8 +582,8 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "Brooks",
-    "color": "azul/gris/blanco",
-    "imagen": ""
+    "color": "verde/gris/negro",
+    "imagen": "/src/assets/Brooks Ghost 16.png"
   },
   {
     "id": 49,
@@ -595,7 +595,7 @@
     "categoria": "ropa",
     "marca": "Nike",
     "color": "negro",
-    "imagen": ""
+    "imagen": "/src/assets/Mallas de Compresión Nike Dri-FIT Running.png"
   },
   {
     "id": 50,
@@ -606,8 +606,8 @@
     "deporte": "running",
     "categoria": "accesorios",
     "marca": "Garmin",
-    "color": "negro/azul",
-    "imagen": ""
+    "color": "negro/gris",
+    "imagen": "/src/assets/Reloj GPS Garmin Forerunner 265.png"
   },
   {
     "id": 51,
@@ -632,7 +632,7 @@
     "categoria": "calzado",
     "marca": "Adidas",
     "color": "negro/blanco/goma",
-    "imagen": ""
+    "imagen": "/src/assets/Adidas Samba OG.png"
   },
   {
     "id": 53,
@@ -644,7 +644,7 @@
     "categoria": "ropa",
     "marca": "Nike",
     "color": "negro",
-    "imagen": ""
+    "imagen": "/src/assets/Nike Tech Fleece Hoodie.png"
   },
   {
     "id": 54,
@@ -655,8 +655,8 @@
     "deporte": "lifestyle",
     "categoria": "calzado",
     "marca": "Converse",
-    "color": "negro",
-    "imagen": ""
+    "color": "negro/blanco",
+    "imagen": "/src/assets/Converse Chuck Taylor All Star.png"
   },
   {
     "id": 55,
@@ -667,8 +667,8 @@
     "deporte": "lifestyle",
     "categoria": "calzado",
     "marca": "New Balance",
-    "color": "gris/azul marino",
-    "imagen": ""
+    "color": "gris/azul marino/blanco",
+    "imagen": "/src/assets/New Balance 574 Classic.png"
   },
   {
     "id": 56,
@@ -693,7 +693,7 @@
     "categoria": "ropa",
     "marca": "Under Armour",
     "color": "negro",
-    "imagen": ""
+    "imagen": "/src/assets/Camiseta de Compresión Under Armour HeatGear.png"
   },
   {
     "id": 58,
@@ -717,7 +717,7 @@
     "categoria": "accesorios",
     "marca": "CAP Barbell",
     "color": "negro",
-    "imagen": ""
+    "imagen": "/src/assets/Mancuernas Hexagonales CAP Barbell.png"
   },
   {
     "id": 60,
@@ -729,7 +729,7 @@
     "categoria": "ropa",
     "marca": "Nike",
     "color": "negro/blanco",
-    "imagen": ""
+    "imagen": "/src/assets/Shorts de Entrenamiento Nike Dri-FIT.png"
   },
   {
     "id": 61,
@@ -741,7 +741,7 @@
     "categoria": "ropa",
     "marca": "Nike",
     "color": "blanco/negro",
-    "imagen": ""
+    "imagen": "/src/assets/Nike Court Dri-FIT Polo.png"
   },
   {
     "id": 62,
@@ -753,7 +753,7 @@
     "categoria": "ropa",
     "marca": "Head",
     "color": "negro/blanco",
-    "imagen": ""
+    "imagen": "/src/assets/Short de Tenis Head Club.png"
   },
   {
     "id": 63,
@@ -765,7 +765,7 @@
     "categoria": "accesorios",
     "marca": "Wilson",
     "color": "amarillo",
-    "imagen": ""
+    "imagen": "/src/assets/Pelotas Wilson US Open x4.png"
   },
   {
     "id": 64,
@@ -776,8 +776,8 @@
     "deporte": "tenis",
     "categoria": "accesorios",
     "marca": "Head",
-    "color": "negro/naranja",
-    "imagen": ""
+    "color": "Azul marino/Azul",
+    "imagen": "/src/assets/Mochila Head Tour Team 35L.png"
   },
   {
     "id": 65,
@@ -789,7 +789,7 @@
     "categoria": "accesorios",
     "marca": "Babolat",
     "color": "blanco",
-    "imagen": ""
+    "imagen": "/src/assets/Overgrip Babolat VS Team x30.png"
   },
   {
     "id": 66,
@@ -800,8 +800,8 @@
     "deporte": "tenis",
     "categoria": "calzado",
     "marca": "Asics",
-    "color": "azul/blanco",
-    "imagen": ""
+    "color": "blanco/dorado",
+    "imagen": "/src/assets/Asics Gel-Resolution 9.png"
   },
   {
     "id": 67,
@@ -812,8 +812,8 @@
     "deporte": "running",
     "categoria": "ropa",
     "marca": "Under Armour",
-    "color": "azul/negro",
-    "imagen": ""
+    "color": "gris",
+    "imagen": "/src/assets/Camiseta Under Armour Streaker 3.png"
   },
   {
     "id": 68,
@@ -824,8 +824,8 @@
     "deporte": "running",
     "categoria": "ropa",
     "marca": "Nike",
-    "color": "negro/blanco",
-    "imagen": ""
+    "color": "negro/gris",
+    "imagen": "/src/assets/Chamarra Cortaviento Nike Windrunner.png"
   },
   {
     "id": 69,
@@ -836,8 +836,8 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "HOKA",
-    "color": "azul/naranja",
-    "imagen": "",
+    "color": "gris/negro/blanco",
+    "imagen": "/src/assets/HOKA Clifton 9.png",
     "destacado": true
   },
   {
@@ -849,8 +849,8 @@
     "deporte": "running",
     "categoria": "calzado",
     "marca": "Saucony",
-    "color": "blanco/negro/amarillo",
-    "imagen": ""
+    "color": "blanco//amarillo/naranja",
+    "imagen": "/src/assets/Saucony Endorphin Speed 3.png"
   },
   {
     "id": 71,
@@ -861,8 +861,8 @@
     "deporte": "running",
     "categoria": "accesorios",
     "marca": "Nathan",
-    "color": "negro/naranja",
-    "imagen": ""
+    "color": "azul/gris",
+    "imagen": "/src/assets/Cinturón de Hidratación Nathan VaporBend.png"
   },
   {
     "id": 72,
@@ -873,8 +873,8 @@
     "deporte": "running",
     "categoria": "accesorios",
     "marca": "Balega",
-    "color": "blanco/gris",
-    "imagen": ""
+    "color": "Azul/gris",
+    "imagen": "/src/assets/Calcetines Running Balega Blister Resist.png"
   },
   {
     "id": 73,
@@ -886,7 +886,7 @@
     "categoria": "calzado",
     "marca": "Puma",
     "color": "negro/blanco",
-    "imagen": ""
+    "imagen": "/src/assets/Puma Suede Classic XXI.png"
   },
   {
     "id": 74,
@@ -897,8 +897,8 @@
     "deporte": "lifestyle",
     "categoria": "ropa",
     "marca": "Champion",
-    "color": "gris",
-    "imagen": ""
+    "color": "blanco",
+    "imagen": "/src/assets/Sudadera Champion Reverse Weave.jpg"
   },
   {
     "id": 75,
@@ -909,8 +909,8 @@
     "deporte": "lifestyle",
     "categoria": "ropa",
     "marca": "Jordan",
-    "color": "negro",
-    "imagen": ""
+    "color": "negro/blanco/naranja",
+    "imagen": "/src/assets/Camiseta Gráfica Jordan Brand.png"
   },
   {
     "id": 76,
@@ -921,8 +921,8 @@
     "deporte": "lifestyle",
     "categoria": "ropa",
     "marca": "Nike",
-    "color": "gris/negro",
-    "imagen": ""
+    "color": "gris/blanco",
+    "imagen": "/src/assets/Jogger Nike Sportswear Club Fleece.png"
   },
   {
     "id": 77,
@@ -934,7 +934,7 @@
     "categoria": "accesorios",
     "marca": "New Era",
     "color": "negro",
-    "imagen": ""
+    "imagen": "/src/assets/Gorra New Era 9FIFTY Snapback.png"
   },
   {
     "id": 78,
@@ -946,7 +946,7 @@
     "categoria": "accesorios",
     "marca": "Nike",
     "color": "negro",
-    "imagen": ""
+    "imagen": "/src/assets/Mochila Nike Heritage Eugene.png"
   },
   {
     "id": 79,
@@ -958,7 +958,7 @@
     "categoria": "calzado",
     "marca": "Reebok",
     "color": "negro/gris",
-    "imagen": ""
+    "imagen": "/src/assets/Reebok Nano X3.png"
   },
   {
     "id": 80,
@@ -970,7 +970,7 @@
     "categoria": "ropa",
     "marca": "Adidas",
     "color": "negro",
-    "imagen": ""
+    "imagen": "/src/assets/Licra de Entrenamiento Adidas Techfit.png"
   },
   {
     "id": 81,
@@ -982,7 +982,7 @@
     "categoria": "ropa",
     "marca": "Nike",
     "color": "negro",
-    "imagen": ""
+    "imagen": "/src/assets/Camiseta Nike Pro Dri-FIT Fitness.png"
   },
   {
     "id": 82,
@@ -994,7 +994,7 @@
     "categoria": "accesorios",
     "marca": "Rogue",
     "color": "negro/rojo",
-    "imagen": ""
+    "imagen": "/src/assets/Cuerda para Saltar Rogue SR-1.png"
   },
   {
     "id": 83,
@@ -1006,7 +1006,7 @@
     "categoria": "accesorios",
     "marca": "Manduka",
     "color": "negro",
-    "imagen": ""
+    "imagen": "/src/assets/Colchoneta Manduka PRO.png"
   },
   {
     "id": 84,
@@ -1017,7 +1017,7 @@
     "deporte": "gym",
     "categoria": "accesorios",
     "marca": "Harbinger",
-    "color": "negro",
-    "imagen": ""
+    "color": "negro/rojo",
+    "imagen": "/src/assets/Guantes de Levantamiento Harbinger Pro.png"
   }
 ]

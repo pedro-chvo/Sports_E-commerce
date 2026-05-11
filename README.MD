@@ -1,6 +1,6 @@
 # Sports E-commerce
 
-Aplicación web de venta de productos deportivos. Permite a los usuarios navegar el catálogo completo de más de 40 artículos organizados por deporte y categoría, gestionar su carrito de compras, realizar pedidos y consultar su historial de compras. Los administradores cuentan con un panel para gestionar productos, usuarios y órdenes.
+Aplicación web de venta de productos deportivos. Permite a los usuarios navegar el catálogo completo de más de 40 artículos organizados por deporte y categoría, gestionar su carrito de compras, lista de deseos, realizar pedidos y consultar su historial de compras. Los administradores cuentan con un panel para gestionar productos (incluyendo imágenes), usuarios, órdenes y métricas de ventas.
 
 ---
 
@@ -12,6 +12,7 @@ Aplicación web de venta de productos deportivos. Permite a los usuarios navegar
 | Autenticación | JWT (jsonwebtoken), bcryptjs |
 | Frontend | HTML, CSS, JavaScript vanilla |
 | Almacenamiento | Archivos JSON (sin base de datos) |
+| Subida de archivos | multer |
 | Dev tooling | nodemon, dotenv |
 
 ---
@@ -64,7 +65,11 @@ El servidor queda disponible en `http://localhost:3000`.
 |--------|-----|
 | Inicio / Catálogo | `http://localhost:3000` |
 | Login / Registro | `http://localhost:3000/pages/login.html` |
+| Búsqueda | `http://localhost:3000/pages/busqueda.html` |
+| Detalle de producto | `http://localhost:3000/pages/producto.html` |
 | Carrito | `http://localhost:3000/pages/cart.html` |
+| Checkout | `http://localhost:3000/pages/checkout.html` |
+| Lista de deseos | `http://localhost:3000/pages/wishlist.html` |
 | Mis pedidos | `http://localhost:3000/pages/pedidos.html` |
 | Mi perfil | `http://localhost:3000/pages/perfil.html` |
 | Panel Admin | `http://localhost:3000/pages/admin.html` |
@@ -93,20 +98,22 @@ proyecto/
 │   │   ├── productos.json
 │   │   ├── carritos.json
 │   │   ├── ventas.json
-│   │   └── pedidos.json
+│   │   └── deseos.json
 │   └── src/
 │       ├── controllers/        # Lógica de negocio
 │       │   ├── user.controller.js
 │       │   ├── usuario.controller.js
 │       │   ├── producto.controller.js
 │       │   ├── carrito.controller.js
-│       │   └── venta.controller.js
+│       │   ├── venta.controller.js
+│       │   └── deseos.controller.js
 │       ├── routes/             # Definición de rutas
 │       │   ├── user.routes.js
 │       │   ├── usuario.routes.js
 │       │   ├── producto.routes.js
 │       │   ├── carrito.routes.js
-│       │   └── venta.routes.js
+│       │   ├── venta.routes.js
+│       │   └── deseos.routes.js
 │       ├── middlewares/
 │       │   └── auth.middleware.js   # Verificación JWT y rol admin
 │       └── utils/
@@ -115,10 +122,13 @@ proyecto/
     ├── index.html              # Página principal
     ├── pages/
     │   ├── login.html
+    │   ├── busqueda.html
+    │   ├── producto.html
     │   ├── cart.html
+    │   ├── checkout.html
+    │   ├── wishlist.html
     │   ├── perfil.html
     │   ├── pedidos.html
-    │   ├── producto.html
     │   ├── admin.html
     │   └── categorias/
     │       ├── futbol.html
@@ -136,7 +146,7 @@ proyecto/
         │   ├── auth.js         # Manejo de sesión y tokens
         │   ├── cart.js         # Lógica del carrito
         │   └── catalog.js      # Filtros y renderizado del catálogo
-        └── assets/             # Imágenes de productos
+        └── assets/             # Imágenes de productos y categorías
 ```
 
 ---
@@ -159,16 +169,19 @@ proyecto/
 | GET | `/api/productos?categoria=calzado` | Público | Filtrar por categoría |
 | GET | `/api/productos?marca=nike` | Público | Filtrar por marca |
 | GET | `/api/productos?destacado=true` | Público | Filtrar destacados |
+| GET | `/api/productos?q=texto` | Público | Buscar por nombre, marca o descripción |
 | GET | `/api/productos/:id` | Público | Obtener producto por ID |
 | POST | `/api/productos` | Admin | Crear producto |
 | PUT | `/api/productos/:id` | Admin | Actualizar producto |
 | DELETE | `/api/productos/:id` | Admin | Eliminar producto |
+| POST | `/api/productos/imagen` | Admin | Subir imagen de producto (multipart/form-data) |
 
 ### Usuarios — `/api/usuarios`
 
 | Método | Ruta | Acceso | Descripción |
 |--------|------|--------|-------------|
 | GET | `/api/usuarios` | Admin | Listar todos los usuarios |
+| POST | `/api/usuarios` | Admin | Crear usuario manualmente |
 | DELETE | `/api/usuarios/:id` | Admin | Eliminar usuario |
 | PATCH | `/api/usuarios/:id/rol` | Admin | Cambiar rol (usuario/admin) |
 | PUT | `/api/usuarios/perfil` | Autenticado | Actualizar nombre/email propios |
@@ -192,9 +205,19 @@ proyecto/
 | GET | `/api/ventas` | Admin | Ver todas las ventas |
 | GET | `/api/ventas/mis-ventas` | Autenticado | Ver historial de compras propio |
 | GET | `/api/ventas/:id` | Autenticado | Ver detalle de un pedido |
+| PATCH | `/api/ventas/:id/cancelar` | Autenticado | Cancelar pedido propio (solo si está en `pendiente`) |
 | PATCH | `/api/ventas/:id/estatus` | Admin | Cambiar estatus del pedido |
+| GET | `/api/ventas/metricas` | Admin | Métricas: ingresos, top productos, ventas por deporte |
 
 > **Estatus posibles de un pedido:** `pendiente` → `procesando` → `enviado` → `entregado` / `cancelado`
+
+### Lista de deseos — `/api/deseos`
+
+| Método | Ruta | Acceso | Descripción |
+|--------|------|--------|-------------|
+| GET | `/api/deseos` | Autenticado | Obtener lista de deseos propia |
+| POST | `/api/deseos` | Autenticado | Agregar producto a la lista de deseos |
+| DELETE | `/api/deseos/:productoId` | Autenticado | Eliminar producto de la lista de deseos |
 
 ---
 
@@ -203,22 +226,9 @@ proyecto/
 - **Pedro** 
 - **Alex** 
 
+
+
+## Mensaje sobre coleccion de postman
+
+Los tokens que se usan en postman para las llamadas  a la api no funcionaran debido a que expiran cada 8horas, los tokens JWT tienen tiempo de expiración y lo configuramos cada 8 horas. 
 ---
-
-## Próximas implementaciones
-- Busqueda de productos
-- Wishlist
-- Flujo más realista para compra de productos (pago simulado, direccion de envio, etc.)
-- Descuentos / cupones de promoción
-- metricas reales para panel de admin (ingresos totales, productos más vendidos, usuarios nuevos, etc.)
-- Que admin pueda crear usuarios desde su panel de admin
-- Subida imagenes de productos nuevos desde el panel de admin (actualmente solo son archivos locales)
-- endpoint para el logout, actualmente solo se borra el token del cliente 
-- *POSIBLE* deploy en vercel
-
----
-
-## Mensaje para el profe
-Profe actualmente la página no cuenta con todas las imagenes de todos los productos ni imagen para el hero banner y cosas asi, para la entrega final estarán listas ya todas las imagenes, por eso actualmente solo tienen esas imagenes con emojis y así. 
-
-También mencionar que este README se hizo con IA, no es tan importante pero nada más para mencionarlo por si lo ve muy bonito jaja

@@ -27,6 +27,10 @@ function renderProductCard(p) {
           <button class="btn-add-cart" onclick="agregarAlCarrito(${p.id})">
             Agregar al carrito
           </button>
+          <button class="btn-wishlist${enListaDeseos(p.id) ? ' activo' : ''}" id="wish-${p.id}"
+                  onclick="toggleDeseo(${p.id})" title="Lista de deseos">
+            <i class="bi ${enListaDeseos(p.id) ? 'bi-heart-fill' : 'bi-heart'}"></i>
+          </button>
         </div>
       </div>
     </div>`;
